@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../l10n/app_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../theme/theme.dart';
 import '../../auth/presentation/login_screen.dart';
 
 class IntroScreen extends StatelessWidget {
@@ -11,74 +13,121 @@ class IntroScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF00174D), Color(0xFF0A2A78)],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+      ),
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFF00174D), Color(0xFF0A2A78)],
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 14, 20, 20),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 14, 20, 20),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              context.l10n.introWelcome,
+                              style: const TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 40,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                                height: 1.0,
+                                letterSpacing: -0.8,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              context.l10n.introWelcomeSupporting,
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white.withValues(alpha: 0.82),
+                                height: 1.35,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      const _LanguageToggle(),
+                    ],
+                  ),
+                  const Spacer(flex: 2),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      FractionallySizedBox(
+                        widthFactor: 0.7,
+                        child: Image.asset(
+                          'assets/intro_logo_symbol_white.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            context.l10n.introLogoTagline,
+                            style: const TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 32,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                              letterSpacing: 0.5,
+                              height: 1.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(flex: 3),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 62,
+                    child: ElevatedButton(
+                      onPressed: () => _goToLogin(context),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: AppColors.tertiary,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
                       child: Text(
-                        context.l10n.introWelcome,
+                        context.l10n.introGetStarted,
                         style: const TextStyle(
                           fontFamily: 'Inter',
-                          fontSize: 32,
-                          fontWeight: FontWeight.w800,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
                           color: Colors.white,
-                          height: 1.05,
-                          letterSpacing: -0.3,
+                          letterSpacing: 0.2,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    const _LanguageToggle(),
-                  ],
-                ),
-                const Spacer(),
-                FractionallySizedBox(
-                  widthFactor: 0.78,
-                  child: Image.asset(
-                    'assets/intro_logo.png',
-                    fit: BoxFit.contain,
                   ),
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: double.infinity,
-                  height: 58,
-                  child: ElevatedButton(
-                    onPressed: () => _goToLogin(context),
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      backgroundColor: const Color(0xFFF0C648),
-                      foregroundColor: const Color(0xFF061E56),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: Text(
-                      context.l10n.introGetStarted,
-                      style: const TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF061E56),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

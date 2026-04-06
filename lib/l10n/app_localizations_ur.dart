@@ -69,6 +69,12 @@ class AppLocalizationsUr extends AppLocalizations {
   String get introWelcome => 'مدد کار میں خوش آمدید';
 
   @override
+  String get introWelcomeSupporting => 'اسمارٹ روڈسائیڈ مدد، بالکل جب آپ کو ضرورت ہو۔';
+
+  @override
+  String get introLogoTagline => 'مدد آ رہی ہے';
+
+  @override
   String get introHeading => 'مدد بس ایک ٹیپ دور ہے';
 
   @override

@@ -69,6 +69,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get introWelcome => 'Welcome to Madad Car';
 
   @override
+  String get introWelcomeSupporting => 'Smart roadside support, exactly when you need it.';
+
+  @override
+  String get introLogoTagline => 'HELP IS COMING';
+
+  @override
   String get introHeading => 'Help is Just a Tap Away';
 
   @override

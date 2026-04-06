@@ -215,6 +215,18 @@ abstract class AppLocalizations {
   /// **'Welcome to Madad Car'**
   String get introWelcome;
 
+  /// No description provided for @introWelcomeSupporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart roadside support, exactly when you need it.'**
+  String get introWelcomeSupporting;
+
+  /// No description provided for @introLogoTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'HELP IS COMING'**
+  String get introLogoTagline;
+
   /// No description provided for @introHeading.
   ///
   /// In en, this message translates to:
