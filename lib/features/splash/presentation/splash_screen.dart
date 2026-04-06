@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/theme.dart';
-import '../../auth/presentation/login_screen.dart';
+import '../../auth/data/auth_session_store.dart';
+import '../../home/presentation/home_screen.dart';
+import '../../../l10n/l10n.dart';
+import 'intro_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,52 +18,89 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _goToLogin();
+    _goToNextScreen();
   }
 
-  Future<void> _goToLogin() async {
-    await Future<void>.delayed(const Duration(seconds: 2));
+  Future<void> _goToNextScreen() async {
+    await Future<void>.delayed(const Duration(seconds: 5));
     if (!mounted) return;
-    Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+
+    final loggedInUsername = await AuthSessionStore.getLoggedInUsername();
+    if (!mounted) return;
+
+    final nextRoute =
+        loggedInUsername == null ? IntroScreen.routeName : HomeScreen.routeName;
+
+    Navigator.of(context).pushReplacementNamed(nextRoute);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xl),
-          child: Column(
-            children: [
-              const Spacer(),
-              Container(
-                width: 90,
-                height: 90,
-                decoration: const BoxDecoration(
-                  color: AppColors.primary,
-                  shape: BoxShape.circle,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF00174D), Color(0xFF0A2A78)],
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+            child: Column(
+              children: [
+                const Spacer(flex: 7),
+                Image.asset(
+                  'assets/brand_icon.png',
+                  width: 112,
+                  height: 112,
                 ),
-                child: const Icon(
-                  Icons.home_repair_service_rounded,
-                  color: AppColors.onPrimary,
-                  size: 44,
+                const SizedBox(height: 16),
+                Text(
+                  context.l10n.splashTitle,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 48,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
+                    height: 1.0,
+                    letterSpacing: -1,
+                  ),
                 ),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              Text('Mechanic Connect',
-                  style: Theme.of(context).textTheme.headlineMedium),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                'Find trusted roadside support quickly',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const Spacer(),
-              const _SplashProgress(),
-              const SizedBox(height: AppSpacing.md),
-              Text('Version 3.0.0',
-                  style: Theme.of(context).textTheme.bodySmall),
-            ],
+                const SizedBox(height: 10),
+                Text(
+                  context.l10n.splashTagline,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF7A91CB),
+                    letterSpacing: 4,
+                    height: 1.0,
+                  ),
+                ),
+                const Spacer(flex: 8),
+                const _SplashDots(),
+                const SizedBox(height: 24),
+                Text(
+                  context.l10n.splashPoweredBy,
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF7A91CB),
+                    letterSpacing: 3,
+                    height: 1.0,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const _PoweredByBrand(),
+                const SizedBox(height: 8),
+              ],
+            ),
           ),
         ),
       ),
@@ -69,30 +108,65 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
-class _SplashProgress extends StatelessWidget {
-  const _SplashProgress();
+class _SplashDots extends StatelessWidget {
+  const _SplashDots();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _line(AppColors.primary, 190),
-        const SizedBox(height: AppSpacing.xs),
-        _line(AppColors.secondary, 230),
-        const SizedBox(height: AppSpacing.xs),
-        _line(const Color(0xFF2D2300), 150),
+        _Dot(color: Color(0xFFF28C3B)),
+        SizedBox(width: 7),
+        _Dot(color: Color(0xFFDB7A33)),
+        SizedBox(width: 7),
+        _Dot(color: Color(0xFF5C74AF)),
       ],
     );
   }
+}
 
-  Widget _line(Color color, double width) {
+class _Dot extends StatelessWidget {
+  const _Dot({required this.color});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      width: width,
-      height: 8,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(AppRadius.md),
-      ),
+      width: 7,
+      height: 7,
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+    );
+  }
+}
+
+class _PoweredByBrand extends StatelessWidget {
+  const _PoweredByBrand();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(
+          Icons.verified_user_rounded,
+          size: 16,
+          color: Color(0xFFF28C3B),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          context.l10n.splashPoweredByBrand,
+          style: const TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 26,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+            height: 1.0,
+            letterSpacing: -0.3,
+          ),
+        ),
+      ],
     );
   }
 }

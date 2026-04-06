@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../features/auth/presentation/login_screen.dart';
 import '../features/home/presentation/home_screen.dart';
+import '../features/splash/presentation/intro_screen.dart';
+import '../l10n/app_locale.dart';
+import '../l10n/app_localizations.dart';
 import '../features/splash/presentation/splash_screen.dart';
+import '../l10n/l10n.dart';
 import '../theme/theme.dart';
 
 class MechanicConnectApp extends StatelessWidget {
@@ -10,15 +14,33 @@ class MechanicConnectApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Mechanic Connect',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      initialRoute: SplashScreen.routeName,
-      routes: {
-        SplashScreen.routeName: (_) => const SplashScreen(),
-        LoginScreen.routeName: (_) => const LoginScreen(),
-        HomeScreen.routeName: (_) => const HomeScreen(),
+    return ValueListenableBuilder<Locale>(
+      valueListenable: AppLocale.current,
+      builder: (context, locale, _) {
+        return MaterialApp(
+          locale: locale,
+          onGenerateTitle: (context) => context.l10n.appTitle,
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localeResolutionCallback: (deviceLocale, supportedLocales) {
+            if (deviceLocale == null) return L10n.fallbackLocale;
+            for (final locale in supportedLocales) {
+              if (locale.languageCode == deviceLocale.languageCode) {
+                return locale;
+              }
+            }
+            return L10n.fallbackLocale;
+          },
+          initialRoute: SplashScreen.routeName,
+          routes: {
+            SplashScreen.routeName: (_) => const SplashScreen(),
+            LoginScreen.routeName: (_) => const LoginScreen(),
+            IntroScreen.routeName: (_) => const IntroScreen(),
+            HomeScreen.routeName: (_) => const HomeScreen(),
+          },
+        );
       },
     );
   }

@@ -102,6 +102,17 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: assets/my_q8.png
+  image_path: assets/brand_icon.png
   min_sdk_android: 21
   remove_alpha_ios: true
+
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+  background_image: assets/splash_full.png
+  background_image_dark: assets/splash_full.png
+  fullscreen: true
+  android_12:
+    image: assets/brand_icon.png
+    color: "#041E63"

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../data/auth_session_store.dart';
+import '../../../l10n/l10n.dart';
 import '../../../theme/theme.dart';
 import '../../home/presentation/home_screen.dart';
 import '../../shared/widgets/app_buttons.dart';
@@ -16,18 +18,35 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  void _onLogin() {
+  Future<void> _onLogin() async {
+    final username = _usernameController.text.trim();
+    if (username.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.loginUsernameRequired),
+        ),
+      );
+      return;
+    }
+
+    await AuthSessionStore.saveLoggedInUsername(username);
+
+    if (!mounted) return;
+    Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+  }
+
+  void _onContinueAsGuest() {
     Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
   }
 
@@ -48,24 +67,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Welcome Back',
+                        Text(context.l10n.loginWelcomeBack,
                             style: Theme.of(context).textTheme.headlineMedium),
                         const SizedBox(height: AppSpacing.xs),
                         Text(
-                          'Sign in to continue managing roadside requests.',
+                          context.l10n.loginSubtitle,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         const SizedBox(height: AppSpacing.xl),
                         AppTextField(
-                          controller: _emailController,
-                          hintText: 'Email',
-                          prefixIcon: const Icon(Icons.mail_outline),
-                          textInputType: TextInputType.emailAddress,
+                          controller: _usernameController,
+                          hintText: context.l10n.loginUsernameHint,
+                          prefixIcon: const Icon(Icons.person_outline_rounded),
+                          textInputType: TextInputType.text,
                         ),
                         const SizedBox(height: AppSpacing.md),
                         AppTextField(
                           controller: _passwordController,
-                          hintText: 'Password',
+                          hintText: context.l10n.loginPasswordHint,
                           prefixIcon: const Icon(Icons.lock_outline),
                           obscureText: _obscurePassword,
                           suffixIcon: IconButton(
@@ -83,18 +102,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {},
-                            child: const Text('Forgot password?'),
+                            child: Text(context.l10n.loginForgotPassword),
                           ),
                         ),
                         const SizedBox(height: AppSpacing.md),
-                        AppPrimaryButton(label: 'Login', onPressed: _onLogin),
+                        AppPrimaryButton(
+                            label: context.l10n.loginButton,
+                            onPressed: () => _onLogin()),
                         const SizedBox(height: AppSpacing.sm),
                         AppSecondaryButton(
-                            label: 'Continue as Guest', onPressed: _onLogin),
+                            label: context.l10n.loginContinueAsGuest,
+                            onPressed: _onContinueAsGuest),
                         const SizedBox(height: AppSpacing.xl),
                         Center(
                           child: Text(
-                            'or continue with',
+                            context.l10n.loginContinueWith,
                             style: Theme.of(context).textTheme.labelMedium,
                           ),
                         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../../theme/theme.dart';
 import '../../shared/widgets/app_buttons.dart';
 import '../../shared/widgets/app_surface_card.dart';
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Mechanic Connect'),
+        title: Text(context.l10n.appTitle),
         actions: [
           IconButton(
               onPressed: () {},
@@ -40,18 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Dashboard',
+                    Text(context.l10n.homeDashboardTitle,
                         style: Theme.of(context).textTheme.headlineMedium),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
-                      'Track requests and access quick actions.',
+                      context.l10n.homeDashboardSubtitle,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(height: AppSpacing.lg),
-                    const AppSurfaceCard(
+                    AppSurfaceCard(
                       child: AppTextField(
-                        hintText: 'Search',
-                        prefixIcon: Icon(Icons.search),
+                        hintText: context.l10n.homeSearchHint,
+                        prefixIcon: const Icon(Icons.search),
                       ),
                     ),
                     const SizedBox(height: AppSpacing.lg),
@@ -76,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Actions',
+                          Text(context.l10n.homeActionsTitle,
                               style: Theme.of(context).textTheme.titleMedium),
                           const SizedBox(height: AppSpacing.md),
                           const Wrap(
@@ -159,16 +160,19 @@ class _QuickActionsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Quick Actions', style: Theme.of(context).textTheme.titleMedium),
+          Text(context.l10n.homeQuickActionsTitle,
+              style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: AppSpacing.md),
           Row(
             children: [
               Expanded(
-                  child: AppPrimaryButton(label: 'Primary', onPressed: () {})),
+                  child: AppPrimaryButton(
+                      label: context.l10n.homePrimaryAction, onPressed: () {})),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
-                  child:
-                      AppSecondaryButton(label: 'Secondary', onPressed: () {})),
+                  child: AppSecondaryButton(
+                      label: context.l10n.homeSecondaryAction,
+                      onPressed: () {})),
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
@@ -177,13 +181,14 @@ class _QuickActionsCard extends StatelessWidget {
               Expanded(
                 child: FilledButton(
                   onPressed: () {},
-                  child: const Text('Inverted'),
+                  child: Text(context.l10n.homeInvertedAction),
                 ),
               ),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
-                  child:
-                      AppSecondaryButton(label: 'Outlined', onPressed: () {})),
+                  child: AppSecondaryButton(
+                      label: context.l10n.homeOutlinedAction,
+                      onPressed: () {})),
             ],
           ),
         ],
