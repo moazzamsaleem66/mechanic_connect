@@ -58,7 +58,8 @@ class IntroScreen extends StatelessWidget {
                                 fontFamily: 'Inter',
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.white.withValues(alpha: 0.82),
+                                color: AppColors.surfaceAlt
+                                    .withValues(alpha: 0.82),
                                 height: 1.35,
                               ),
                             ),
@@ -86,10 +87,10 @@ class IntroScreen extends StatelessWidget {
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            context.l10n.introLogoTagline,
+                            context.l10n.introHeading,
                             style: const TextStyle(
                               fontFamily: 'Inter',
-                              fontSize: 32,
+                              fontSize: 26,
                               fontWeight: FontWeight.w800,
                               color: Colors.white,
                               letterSpacing: 0.5,
@@ -104,24 +105,90 @@ class IntroScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     height: 62,
-                    child: ElevatedButton(
-                      onPressed: () => _goToLogin(context),
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        backgroundColor: AppColors.tertiary,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x22000000),
+                            blurRadius: 12,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
                       ),
-                      child: Text(
-                        context.l10n.introGetStarted,
-                        style: const TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                          letterSpacing: 0.2,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(18),
+                        child: Stack(
+                          children: [
+                            DecoratedBox(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    const Color(0xFF5F80B2)
+                                        .withValues(alpha: 0.46),
+                                    const Color(0xFF4E6EA3)
+                                        .withValues(alpha: 0.34),
+                                  ],
+                                ),
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.26),
+                                  width: 1.15,
+                                ),
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              child: const SizedBox.expand(),
+                            ),
+                            Positioned(
+                              left: 16,
+                              right: 16,
+                              top: 1,
+                              child: Container(
+                                height: 1.2,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.34),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            Positioned.fill(
+                              child: ElevatedButton(
+                                onPressed: () => _goToLogin(context),
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  shadowColor: Colors.transparent,
+                                  surfaceTintColor: Colors.transparent,
+                                  backgroundColor: Colors.transparent,
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      context.l10n.introGetStarted,
+                                      style: const TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.white,
+                                        letterSpacing: 0.8,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    const Icon(
+                                      Icons.arrow_forward_rounded,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

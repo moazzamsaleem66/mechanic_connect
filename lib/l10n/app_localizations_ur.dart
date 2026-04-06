@@ -27,25 +27,46 @@ class AppLocalizationsUr extends AppLocalizations {
   String get loginWelcomeBack => 'خوش آمدید';
 
   @override
-  String get loginSubtitle => 'روڈ سائیڈ درخواستوں کے انتظام کو جاری رکھنے کے لیے سائن ان کریں۔';
+  String get loginSubtitle => 'فوری مدد کے لیے اپنے اکاؤنٹ میں لاگ اِن کریں۔';
+
+  @override
+  String get loginBrand => 'مدد کار';
+
+  @override
+  String get loginHelp => 'مدد';
 
   @override
   String get loginUsernameHint => 'صارف نام';
 
   @override
-  String get loginEmailHint => 'ای میل';
+  String get loginEmailHint => 'ای میل ایڈریس';
 
   @override
   String get loginPasswordHint => 'پاس ورڈ';
 
   @override
-  String get loginUsernameRequired => 'جاری رکھنے کے لیے صارف نام درج کریں۔';
+  String get loginUsernameRequired => 'جاری رکھنے کے لیے ای میل ایڈریس درج کریں۔';
 
   @override
   String get loginForgotPassword => 'پاس ورڈ بھول گئے؟';
 
   @override
   String get loginButton => 'لاگ ان';
+
+  @override
+  String get loginSecureAccess => 'محفوظ رسائی';
+
+  @override
+  String get loginBiometric => 'بایومیٹرک لاگ اِن';
+
+  @override
+  String get loginNoAccount => 'اکاؤنٹ نہیں ہے؟';
+
+  @override
+  String get loginSignUp => 'سائن اپ';
+
+  @override
+  String get loginFeatureSoon => 'یہ فیچر جلد دستیاب ہوگا۔';
 
   @override
   String get loginContinueAsGuest => 'مہمان کے طور پر جاری رکھیں';

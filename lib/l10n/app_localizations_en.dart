@@ -27,25 +27,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginWelcomeBack => 'Welcome Back';
 
   @override
-  String get loginSubtitle => 'Sign in to continue managing roadside requests.';
+  String get loginSubtitle => 'Log in to your account for quick access to help.';
+
+  @override
+  String get loginBrand => 'MADAD CAR';
+
+  @override
+  String get loginHelp => 'Help';
 
   @override
   String get loginUsernameHint => 'Username';
 
   @override
-  String get loginEmailHint => 'Email';
+  String get loginEmailHint => 'Email Address';
 
   @override
   String get loginPasswordHint => 'Password';
 
   @override
-  String get loginUsernameRequired => 'Please enter username to continue.';
+  String get loginUsernameRequired => 'Please enter email address to continue.';
 
   @override
-  String get loginForgotPassword => 'Forgot password?';
+  String get loginForgotPassword => 'Forgot Password?';
 
   @override
   String get loginButton => 'Login';
+
+  @override
+  String get loginSecureAccess => 'SECURE ACCESS';
+
+  @override
+  String get loginBiometric => 'Biometric Login';
+
+  @override
+  String get loginNoAccount => 'Don\'t have an account?';
+
+  @override
+  String get loginSignUp => 'Sign Up';
+
+  @override
+  String get loginFeatureSoon => 'This feature will be available soon.';
 
   @override
   String get loginContinueAsGuest => 'Continue as Guest';

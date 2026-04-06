@@ -134,8 +134,20 @@ abstract class AppLocalizations {
   /// No description provided for @loginSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Sign in to continue managing roadside requests.'**
+  /// **'Log in to your account for quick access to help.'**
   String get loginSubtitle;
+
+  /// No description provided for @loginBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'MADAD CAR'**
+  String get loginBrand;
+
+  /// No description provided for @loginHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get loginHelp;
 
   /// No description provided for @loginUsernameHint.
   ///
@@ -146,7 +158,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginEmailHint.
   ///
   /// In en, this message translates to:
-  /// **'Email'**
+  /// **'Email Address'**
   String get loginEmailHint;
 
   /// No description provided for @loginPasswordHint.
@@ -158,13 +170,13 @@ abstract class AppLocalizations {
   /// No description provided for @loginUsernameRequired.
   ///
   /// In en, this message translates to:
-  /// **'Please enter username to continue.'**
+  /// **'Please enter email address to continue.'**
   String get loginUsernameRequired;
 
   /// No description provided for @loginForgotPassword.
   ///
   /// In en, this message translates to:
-  /// **'Forgot password?'**
+  /// **'Forgot Password?'**
   String get loginForgotPassword;
 
   /// No description provided for @loginButton.
@@ -172,6 +184,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login'**
   String get loginButton;
+
+  /// No description provided for @loginSecureAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'SECURE ACCESS'**
+  String get loginSecureAccess;
+
+  /// No description provided for @loginBiometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Login'**
+  String get loginBiometric;
+
+  /// No description provided for @loginNoAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get loginNoAccount;
+
+  /// No description provided for @loginSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get loginSignUp;
+
+  /// No description provided for @loginFeatureSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature will be available soon.'**
+  String get loginFeatureSoon;
 
   /// No description provided for @loginContinueAsGuest.
   ///

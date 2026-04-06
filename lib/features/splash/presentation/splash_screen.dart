@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+import '../../../theme/app_colors.dart';
 import '../../auth/data/auth_session_store.dart';
 import '../../home/presentation/home_screen.dart';
 import '../../../l10n/l10n.dart';
@@ -36,6 +38,24 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return const AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+        systemNavigationBarColor: Color(0xFF00174D),
+        systemNavigationBarIconBrightness: Brightness.light,
+      ),
+      child: _SplashContent(),
+    );
+  }
+}
+
+class _SplashContent extends StatelessWidget {
+  const _SplashContent();
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -53,10 +73,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 const Spacer(flex: 7),
                 Image.asset(
                   'assets/brand_icon.png',
-                  width: 112,
-                  height: 112,
+                  width: 142,
+                  height: 142,
                 ),
-                const SizedBox(height: 16),
                 Text(
                   context.l10n.splashTitle,
                   textAlign: TextAlign.center,
@@ -77,7 +96,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     fontFamily: 'Inter',
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF7A91CB),
+                    color: AppColors.surfaceAlt,
                     letterSpacing: 4,
                     height: 1.0,
                   ),
@@ -91,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     fontFamily: 'Inter',
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF7A91CB),
+                    color:  AppColors.surfaceAlt,
                     letterSpacing: 3,
                     height: 1.0,
                   ),

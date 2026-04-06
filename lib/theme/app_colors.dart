@@ -6,6 +6,8 @@ abstract final class AppColors {
   static const Color secondary = Color(0xFFFF6D00);
   static const Color tertiary = Color(0xFFFFC107);
   static const Color neutral = Color(0xFFF8F9FA);
+  static const Color subtitle = Color(0xFF7A91CB);
+
 
   static const Color background = Color(0xFFF1F3F5);
   static const Color surface = Color(0xFFF8F9FA);
