@@ -215,6 +215,372 @@ abstract class AppLocalizations {
   /// **'This feature will be available soon.'**
   String get loginFeatureSoon;
 
+  /// No description provided for @createAccountBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'Madad Car'**
+  String get createAccountBrand;
+
+  /// No description provided for @createAccountIdentityTab.
+  ///
+  /// In en, this message translates to:
+  /// **'IDENTITY'**
+  String get createAccountIdentityTab;
+
+  /// No description provided for @createAccountVehicleTab.
+  ///
+  /// In en, this message translates to:
+  /// **'VEHICLE'**
+  String get createAccountVehicleTab;
+
+  /// No description provided for @createAccountReviewTab.
+  ///
+  /// In en, this message translates to:
+  /// **'REVIEW'**
+  String get createAccountReviewTab;
+
+  /// No description provided for @createAccountPasswordTab.
+  ///
+  /// In en, this message translates to:
+  /// **'PASSWORD'**
+  String get createAccountPasswordTab;
+
+  /// No description provided for @createAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccountTitle;
+
+  /// No description provided for @createAccountVehicleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Your Vehicle'**
+  String get createAccountVehicleTitle;
+
+  /// No description provided for @createAccountReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s verify your identity & vehicle.'**
+  String get createAccountReviewTitle;
+
+  /// No description provided for @createAccountPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Your Account'**
+  String get createAccountPasswordTitle;
+
+  /// No description provided for @createAccountIdentitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Madad Car for reliable roadside support. We keep you moving when the road gets tough.'**
+  String get createAccountIdentitySubtitle;
+
+  /// No description provided for @createAccountVehicleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add accurate vehicle details for faster support and secure verification.'**
+  String get createAccountVehicleSubtitle;
+
+  /// No description provided for @createAccountReviewSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please ensure all details match your official documents before continuing.'**
+  String get createAccountReviewSubtitle;
+
+  /// No description provided for @createAccountPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a strong password for your profile.'**
+  String get createAccountPasswordSubtitle;
+
+  /// No description provided for @createAccountContinueButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get createAccountContinueButton;
+
+  /// No description provided for @createAccountCreateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccountCreateButton;
+
+  /// No description provided for @createAccountDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Account flow completed successfully.'**
+  String get createAccountDone;
+
+  /// No description provided for @createAccountFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'FULL NAME'**
+  String get createAccountFullName;
+
+  /// No description provided for @createAccountFullNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'John Doe'**
+  String get createAccountFullNameHint;
+
+  /// No description provided for @createAccountEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'EMAIL ADDRESS'**
+  String get createAccountEmail;
+
+  /// No description provided for @createAccountEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'john@example.com'**
+  String get createAccountEmailHint;
+
+  /// No description provided for @createAccountIdentityNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your information is encrypted and never shared. We use your email for service updates and SOS confirmations.'**
+  String get createAccountIdentityNote;
+
+  /// No description provided for @createAccountVehicleType.
+  ///
+  /// In en, this message translates to:
+  /// **'VEHICLE TYPE'**
+  String get createAccountVehicleType;
+
+  /// No description provided for @createAccountVehicleTypeCar.
+  ///
+  /// In en, this message translates to:
+  /// **'CAR'**
+  String get createAccountVehicleTypeCar;
+
+  /// No description provided for @createAccountVehicleTypeBike.
+  ///
+  /// In en, this message translates to:
+  /// **'BIKE'**
+  String get createAccountVehicleTypeBike;
+
+  /// No description provided for @createAccountVehicleTypeVan.
+  ///
+  /// In en, this message translates to:
+  /// **'VAN'**
+  String get createAccountVehicleTypeVan;
+
+  /// No description provided for @createAccountVehicleMake.
+  ///
+  /// In en, this message translates to:
+  /// **'VEHICLE MAKE'**
+  String get createAccountVehicleMake;
+
+  /// No description provided for @createAccountVehicleMakeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Make'**
+  String get createAccountVehicleMakeHint;
+
+  /// No description provided for @createAccountVehicleModel.
+  ///
+  /// In en, this message translates to:
+  /// **'VEHICLE MODEL'**
+  String get createAccountVehicleModel;
+
+  /// No description provided for @createAccountVehicleModelHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Corolla'**
+  String get createAccountVehicleModelHint;
+
+  /// No description provided for @createAccountVehicleNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'REGISTRATION NUMBER'**
+  String get createAccountVehicleNumber;
+
+  /// No description provided for @createAccountVehicleNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'ABC-1234'**
+  String get createAccountVehicleNumberHint;
+
+  /// No description provided for @createAccountVehicleColor.
+  ///
+  /// In en, this message translates to:
+  /// **'VEHICLE COLOR'**
+  String get createAccountVehicleColor;
+
+  /// No description provided for @createAccountVehicleColorHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. White'**
+  String get createAccountVehicleColorHint;
+
+  /// No description provided for @createAccountVehicleYear.
+  ///
+  /// In en, this message translates to:
+  /// **'VEHICLE YEAR'**
+  String get createAccountVehicleYear;
+
+  /// No description provided for @createAccountVehicleYearHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 2022'**
+  String get createAccountVehicleYearHint;
+
+  /// No description provided for @createAccountVehicleManufacturer.
+  ///
+  /// In en, this message translates to:
+  /// **'VEHICLE MANUFACTURER'**
+  String get createAccountVehicleManufacturer;
+
+  /// No description provided for @createAccountVehicleManufacturerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Toyota Motors'**
+  String get createAccountVehicleManufacturerHint;
+
+  /// No description provided for @createAccountReviewIdentitySection.
+  ///
+  /// In en, this message translates to:
+  /// **'USER PROFILE'**
+  String get createAccountReviewIdentitySection;
+
+  /// No description provided for @createAccountReviewVehicleSection.
+  ///
+  /// In en, this message translates to:
+  /// **'VEHICLE DETAILS'**
+  String get createAccountReviewVehicleSection;
+
+  /// No description provided for @createAccountPasswordField.
+  ///
+  /// In en, this message translates to:
+  /// **'CREATE PASSWORD'**
+  String get createAccountPasswordField;
+
+  /// No description provided for @createAccountPasswordFieldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'••••••••'**
+  String get createAccountPasswordFieldHint;
+
+  /// No description provided for @createAccountConfirmPasswordField.
+  ///
+  /// In en, this message translates to:
+  /// **'CONFIRM PASSWORD'**
+  String get createAccountConfirmPasswordField;
+
+  /// No description provided for @createAccountPasswordRuleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complex Characters'**
+  String get createAccountPasswordRuleTitle;
+
+  /// No description provided for @createAccountPasswordRuleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Include a mix of symbols, numbers, and cases.'**
+  String get createAccountPasswordRuleBody;
+
+  /// No description provided for @createAccountPasswordSafetyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Safety Lock'**
+  String get createAccountPasswordSafetyTitle;
+
+  /// No description provided for @createAccountPasswordSafetyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We use AES-256 encryption to protect your data.'**
+  String get createAccountPasswordSafetyBody;
+
+  /// No description provided for @createAccountIdentityRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete full name and email first.'**
+  String get createAccountIdentityRequired;
+
+  /// No description provided for @createAccountVehicleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete all vehicle details first.'**
+  String get createAccountVehicleRequired;
+
+  /// No description provided for @createAccountPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters.'**
+  String get createAccountPasswordTooShort;
+
+  /// No description provided for @createAccountPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Password and confirm password do not match.'**
+  String get createAccountPasswordMismatch;
+
+  /// No description provided for @authInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get authInvalidEmail;
+
+  /// No description provided for @authUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No account found for this email.'**
+  String get authUserNotFound;
+
+  /// No description provided for @authWrongPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password.'**
+  String get authWrongPassword;
+
+  /// No description provided for @authTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Try again later.'**
+  String get authTooManyRequests;
+
+  /// No description provided for @authEmailAlreadyInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already registered.'**
+  String get authEmailAlreadyInUse;
+
+  /// No description provided for @authWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is too weak.'**
+  String get authWeakPassword;
+
+  /// No description provided for @authNetworkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Please check your internet.'**
+  String get authNetworkError;
+
+  /// No description provided for @authFirebaseConfigMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Firebase Android config missing. Add SHA-1/SHA-256 in Firebase app settings and download new google-services.json.'**
+  String get authFirebaseConfigMissing;
+
+  /// No description provided for @authFirestoreDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud Firestore is disabled for this Firebase project. Enable Firestore API and retry.'**
+  String get authFirestoreDisabled;
+
+  /// No description provided for @authProfileSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save profile details. Please try again.'**
+  String get authProfileSaveFailed;
+
+  /// No description provided for @authGenericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get authGenericError;
+
   /// No description provided for @loginContinueAsGuest.
   ///
   /// In en, this message translates to:
@@ -340,6 +706,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Outlined'**
   String get homeOutlinedAction;
+
+  /// No description provided for @homeComingSoonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming Soon'**
+  String get homeComingSoonTitle;
+
+  /// No description provided for @homeComingSoonSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your main dashboard is on the way.'**
+  String get homeComingSoonSubtitle;
+
+  /// No description provided for @homeLogoutButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get homeLogoutButton;
+
+  /// No description provided for @homeLoggingOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Logging out...'**
+  String get homeLoggingOut;
+
+  /// No description provided for @homeLogoutFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to log out right now. Please try again.'**
+  String get homeLogoutFailed;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
