@@ -21,6 +21,10 @@ class FirebaseAuthRepository {
     );
   }
 
+  Future<void> sendPasswordResetEmail({required String email}) {
+    return _auth.sendPasswordResetEmail(email: email.trim());
+  }
+
   Future<UserCredential> registerUser({
     required String fullName,
     required String email,

@@ -69,6 +69,39 @@ class AppLocalizationsUr extends AppLocalizations {
   String get loginFeatureSoon => 'یہ فیچر جلد دستیاب ہوگا۔';
 
   @override
+  String get forgotPasswordAppBarTitle => 'روڈسائیڈ اسسٹنس';
+
+  @override
+  String get forgotPasswordTitle => 'پاس ورڈ بھول گئے؟';
+
+  @override
+  String get forgotPasswordSubtitle => 'اپنا رجسٹرڈ ای میل درج کریں، ہم پاس ورڈ ری سیٹ کرنے کی ہدایات بھیج دیں گے۔';
+
+  @override
+  String get forgotPasswordEmailLabel => 'ای میل ایڈریس';
+
+  @override
+  String get forgotPasswordEmailHint => 'name@example.com';
+
+  @override
+  String get forgotPasswordEmailNote => 'ہم تصدیق کریں گے کہ یہ ای میل کسی اکاؤنٹ سے منسلک ہے۔';
+
+  @override
+  String get forgotPasswordButton => 'ری سیٹ لنک بھیجیں';
+
+  @override
+  String get forgotPasswordRemember => 'پاس ورڈ یاد آگیا؟';
+
+  @override
+  String get forgotPasswordLoginHere => 'یہاں لاگ ان کریں';
+
+  @override
+  String get forgotPasswordEmailRequired => 'براہِ کرم اپنا رجسٹرڈ ای میل ایڈریس درج کریں۔';
+
+  @override
+  String get forgotPasswordResetSent => 'پاس ورڈ ری سیٹ لنک بھیج دیا گیا ہے۔ اپنا ای میل چیک کریں۔';
+
+  @override
   String get createAccountBrand => 'مدد کار';
 
   @override
@@ -328,4 +361,163 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get homeLogoutFailed => 'ابھی لاگ آؤٹ ممکن نہیں۔ دوبارہ کوشش کریں۔';
+
+  @override
+  String get homeCurrentLocationLabel => 'موجودہ مقام';
+
+  @override
+  String get homeCurrentLocationValue => 'لوکیشن';
+
+  @override
+  String get homeCurrentLocationFallback => 'موجودہ لوکیشن دستیاب نہیں';
+
+  @override
+  String get homeBrandTitle => 'مدد کار';
+
+  @override
+  String get homePatrolsTitle => 'قریبی پٹرولز';
+
+  @override
+  String get homePatrolsSubtitle => '12 مدد کار فعال';
+
+  @override
+  String get homeExpandMap => 'نقشہ کھولیں';
+
+  @override
+  String get homeEmergencyTitle => 'ایمرجنسی روڈسائیڈ اسسٹنس';
+
+  @override
+  String get homeEmergencySubtitle => 'حادثہ، فیول ختم یا گاڑی کی خرابی میں فوری مدد۔';
+
+  @override
+  String get homeRequestSos => 'ایس او ایس ریکویسٹ';
+
+  @override
+  String get homeServicesTitle => 'ہماری سروسز';
+
+  @override
+  String get homeServiceMechanic => 'مکینک';
+
+  @override
+  String get homeServicePuncture => 'پنکچر شاپ';
+
+  @override
+  String get homeServiceBattery => 'بیٹری جمپ اسٹارٹ';
+
+  @override
+  String get homeServiceTowing => 'ٹوونگ';
+
+  @override
+  String get homeServiceFuel => 'فیول ڈلیوری';
+
+  @override
+  String get homeServiceAccident => 'ایکسڈنٹ ریکوری';
+
+  @override
+  String get homeNearbyMechanicsTitle => 'قریبی مکینکس';
+
+  @override
+  String get homeSortLabel => 'ترتیب';
+
+  @override
+  String get homeSortByDistance => 'فاصلہ';
+
+  @override
+  String get homeSortByRating => 'ریٹنگ';
+
+  @override
+  String get homeSortByName => 'نام';
+
+  @override
+  String get homeMechanicAwan => 'اوان آٹو';
+
+  @override
+  String get homeMechanicArfan => 'عرفان آٹو';
+
+  @override
+  String get homeMechanicEhsan => 'احسان آٹو';
+
+  @override
+  String get homeMechanicPakistan => 'پاکستان آٹو';
+
+  @override
+  String get homeMechanicAwami => 'عوامی آٹو';
+
+  @override
+  String get homeTabHome => 'ہوم';
+
+  @override
+  String get homeTabRequests => 'ریکویسٹس';
+
+  @override
+  String get homeTabHistory => 'ہسٹری';
+
+  @override
+  String get homeTabProfile => 'پروفائل';
+
+  @override
+  String get homeRequestsTitle => 'ریکویسٹس';
+
+  @override
+  String get homeRequestsSubtitle => 'ایمرجنسی ریکویسٹ ایک ٹیپ میں کھولیں۔';
+
+  @override
+  String get homeRequestEmergencyNow => 'ایمرجنسی مدد چاہیے؟';
+
+  @override
+  String get homeSosRequestOpened => 'ایس او ایس ریکویسٹ کامیابی سے کھل گئی۔';
+
+  @override
+  String get homeHistoryTitle => 'ہسٹری';
+
+  @override
+  String get homeHistorySubtitle => 'ابھی کوئی ریکویسٹ ہسٹری موجود نہیں۔';
+
+  @override
+  String get homeProfileTitle => 'پروفائل';
+
+  @override
+  String get homeProfileSubtitle => 'اپنی اکاؤنٹ سیٹنگز مینیج کریں۔';
+
+  @override
+  String get homeMapScreenTitle => 'نقشہ';
+
+  @override
+  String get homeOpenMapButton => 'میپس میں کھولیں';
+
+  @override
+  String get homeOpenMapFailed => 'اس وقت نقشہ نہیں کھل سکا۔';
+
+  @override
+  String get homeMapLoading => 'لائیو لوکیشن حاصل کی جا رہی ہے...';
+
+  @override
+  String get homeMapPermissionNeeded => 'لائیو نقشہ دکھانے کے لیے لوکیشن پرمیشن درکار ہے۔';
+
+  @override
+  String get homeMapRetry => 'دوبارہ کوشش کریں';
+
+  @override
+  String get homeMapLiveMarkerTitle => 'آپ یہاں ہیں';
+
+  @override
+  String get homeMenuProfile => 'پروفائل';
+
+  @override
+  String get homeMenuLanguage => 'زبان';
+
+  @override
+  String get homeMenuContactUs => 'رابطہ کریں';
+
+  @override
+  String get homeMenuSetting => 'سیٹنگ';
+
+  @override
+  String get homeMenuLogout => 'لاگ آؤٹ';
+
+  @override
+  String get homeContactUsSoon => 'رابطہ کریں فیچر جلد دستیاب ہوگا۔';
+
+  @override
+  String get homeSettingsSoon => 'سیٹنگز جلد دستیاب ہوں گی۔';
 }

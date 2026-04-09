@@ -69,6 +69,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginFeatureSoon => 'This feature will be available soon.';
 
   @override
+  String get forgotPasswordAppBarTitle => 'Roadside Assistance';
+
+  @override
+  String get forgotPasswordTitle => 'Forgot Password?';
+
+  @override
+  String get forgotPasswordSubtitle => 'Enter your registered email and we\'ll send you instructions to reset your password.';
+
+  @override
+  String get forgotPasswordEmailLabel => 'EMAIL ADDRESS';
+
+  @override
+  String get forgotPasswordEmailHint => 'name@example.com';
+
+  @override
+  String get forgotPasswordEmailNote => 'We\'ll verify this email is linked to an account.';
+
+  @override
+  String get forgotPasswordButton => 'Send Reset Link';
+
+  @override
+  String get forgotPasswordRemember => 'Remembered your password?';
+
+  @override
+  String get forgotPasswordLoginHere => 'Log in here';
+
+  @override
+  String get forgotPasswordEmailRequired => 'Please enter your registered email address.';
+
+  @override
+  String get forgotPasswordResetSent => 'Password reset link sent. Please check your email.';
+
+  @override
   String get createAccountBrand => 'Madad Car';
 
   @override
@@ -328,4 +361,163 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeLogoutFailed => 'Unable to log out right now. Please try again.';
+
+  @override
+  String get homeCurrentLocationLabel => 'CURRENT LOCATION';
+
+  @override
+  String get homeCurrentLocationValue => 'Location';
+
+  @override
+  String get homeCurrentLocationFallback => 'Current location unavailable';
+
+  @override
+  String get homeBrandTitle => 'Madad Car';
+
+  @override
+  String get homePatrolsTitle => 'Patrols Nearby';
+
+  @override
+  String get homePatrolsSubtitle => '12 Madad Cars Active';
+
+  @override
+  String get homeExpandMap => 'Expand Map';
+
+  @override
+  String get homeEmergencyTitle => 'Emergency Roadside Assistance';
+
+  @override
+  String get homeEmergencySubtitle => 'Immediate help for accidents, fuel loss, or mechanical failure.';
+
+  @override
+  String get homeRequestSos => 'REQUEST SOS';
+
+  @override
+  String get homeServicesTitle => 'Our Services';
+
+  @override
+  String get homeServiceMechanic => 'Mechanic';
+
+  @override
+  String get homeServicePuncture => 'Puncture Shop';
+
+  @override
+  String get homeServiceBattery => 'Battery Jumpstart';
+
+  @override
+  String get homeServiceTowing => 'Towing';
+
+  @override
+  String get homeServiceFuel => 'Fuel Delivery';
+
+  @override
+  String get homeServiceAccident => 'Accident Recovery';
+
+  @override
+  String get homeNearbyMechanicsTitle => 'Nearby Mechanics';
+
+  @override
+  String get homeSortLabel => 'Sort';
+
+  @override
+  String get homeSortByDistance => 'Distance';
+
+  @override
+  String get homeSortByRating => 'Rating';
+
+  @override
+  String get homeSortByName => 'Name';
+
+  @override
+  String get homeMechanicAwan => 'Awan Auto';
+
+  @override
+  String get homeMechanicArfan => 'Arfan Auto';
+
+  @override
+  String get homeMechanicEhsan => 'Ehsan Auto';
+
+  @override
+  String get homeMechanicPakistan => 'Pakistan Auto';
+
+  @override
+  String get homeMechanicAwami => 'Awami Auto';
+
+  @override
+  String get homeTabHome => 'Home';
+
+  @override
+  String get homeTabRequests => 'Requests';
+
+  @override
+  String get homeTabHistory => 'History';
+
+  @override
+  String get homeTabProfile => 'Profile';
+
+  @override
+  String get homeRequestsTitle => 'Requests';
+
+  @override
+  String get homeRequestsSubtitle => 'Open your emergency request in one tap.';
+
+  @override
+  String get homeRequestEmergencyNow => 'Need Emergency Assistance?';
+
+  @override
+  String get homeSosRequestOpened => 'SOS request opened successfully.';
+
+  @override
+  String get homeHistoryTitle => 'History';
+
+  @override
+  String get homeHistorySubtitle => 'No request history available yet.';
+
+  @override
+  String get homeProfileTitle => 'Profile';
+
+  @override
+  String get homeProfileSubtitle => 'Manage your account preferences.';
+
+  @override
+  String get homeMapScreenTitle => 'Map';
+
+  @override
+  String get homeOpenMapButton => 'Open in Maps';
+
+  @override
+  String get homeOpenMapFailed => 'Could not open maps right now.';
+
+  @override
+  String get homeMapLoading => 'Fetching live location...';
+
+  @override
+  String get homeMapPermissionNeeded => 'Location permission is needed to show your live map.';
+
+  @override
+  String get homeMapRetry => 'Try Again';
+
+  @override
+  String get homeMapLiveMarkerTitle => 'You are here';
+
+  @override
+  String get homeMenuProfile => 'Profile';
+
+  @override
+  String get homeMenuLanguage => 'Language';
+
+  @override
+  String get homeMenuContactUs => 'Contact Us';
+
+  @override
+  String get homeMenuSetting => 'Setting';
+
+  @override
+  String get homeMenuLogout => 'Logout';
+
+  @override
+  String get homeContactUsSoon => 'Contact Us will be available soon.';
+
+  @override
+  String get homeSettingsSoon => 'Settings will be available soon.';
 }

@@ -10,6 +10,7 @@ import '../../shared/widgets/blue_loader_overlay.dart';
 import '../data/auth_session_store.dart';
 import '../data/firebase_auth_repository.dart';
 import 'create_account_screen.dart';
+import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -197,7 +198,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                            onPressed: _isLoading ? null : _showComingSoon,
+                            onPressed: _isLoading
+                                ? null
+                                : () => Navigator.of(context)
+                                    .pushNamed(ForgotPasswordScreen.routeName),
                             style: TextButton.styleFrom(
                               foregroundColor: AppColors.primary,
                               padding:

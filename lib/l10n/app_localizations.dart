@@ -215,6 +215,72 @@ abstract class AppLocalizations {
   /// **'This feature will be available soon.'**
   String get loginFeatureSoon;
 
+  /// No description provided for @forgotPasswordAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Roadside Assistance'**
+  String get forgotPasswordAppBarTitle;
+
+  /// No description provided for @forgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPasswordTitle;
+
+  /// No description provided for @forgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your registered email and we\'ll send you instructions to reset your password.'**
+  String get forgotPasswordSubtitle;
+
+  /// No description provided for @forgotPasswordEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'EMAIL ADDRESS'**
+  String get forgotPasswordEmailLabel;
+
+  /// No description provided for @forgotPasswordEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'name@example.com'**
+  String get forgotPasswordEmailHint;
+
+  /// No description provided for @forgotPasswordEmailNote.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll verify this email is linked to an account.'**
+  String get forgotPasswordEmailNote;
+
+  /// No description provided for @forgotPasswordButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Reset Link'**
+  String get forgotPasswordButton;
+
+  /// No description provided for @forgotPasswordRemember.
+  ///
+  /// In en, this message translates to:
+  /// **'Remembered your password?'**
+  String get forgotPasswordRemember;
+
+  /// No description provided for @forgotPasswordLoginHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in here'**
+  String get forgotPasswordLoginHere;
+
+  /// No description provided for @forgotPasswordEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your registered email address.'**
+  String get forgotPasswordEmailRequired;
+
+  /// No description provided for @forgotPasswordResetSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset link sent. Please check your email.'**
+  String get forgotPasswordResetSent;
+
   /// No description provided for @createAccountBrand.
   ///
   /// In en, this message translates to:
@@ -736,6 +802,324 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unable to log out right now. Please try again.'**
   String get homeLogoutFailed;
+
+  /// No description provided for @homeCurrentLocationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CURRENT LOCATION'**
+  String get homeCurrentLocationLabel;
+
+  /// No description provided for @homeCurrentLocationValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get homeCurrentLocationValue;
+
+  /// No description provided for @homeCurrentLocationFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Current location unavailable'**
+  String get homeCurrentLocationFallback;
+
+  /// No description provided for @homeBrandTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Madad Car'**
+  String get homeBrandTitle;
+
+  /// No description provided for @homePatrolsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Patrols Nearby'**
+  String get homePatrolsTitle;
+
+  /// No description provided for @homePatrolsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'12 Madad Cars Active'**
+  String get homePatrolsSubtitle;
+
+  /// No description provided for @homeExpandMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand Map'**
+  String get homeExpandMap;
+
+  /// No description provided for @homeEmergencyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Roadside Assistance'**
+  String get homeEmergencyTitle;
+
+  /// No description provided for @homeEmergencySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediate help for accidents, fuel loss, or mechanical failure.'**
+  String get homeEmergencySubtitle;
+
+  /// No description provided for @homeRequestSos.
+  ///
+  /// In en, this message translates to:
+  /// **'REQUEST SOS'**
+  String get homeRequestSos;
+
+  /// No description provided for @homeServicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Our Services'**
+  String get homeServicesTitle;
+
+  /// No description provided for @homeServiceMechanic.
+  ///
+  /// In en, this message translates to:
+  /// **'Mechanic'**
+  String get homeServiceMechanic;
+
+  /// No description provided for @homeServicePuncture.
+  ///
+  /// In en, this message translates to:
+  /// **'Puncture Shop'**
+  String get homeServicePuncture;
+
+  /// No description provided for @homeServiceBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery Jumpstart'**
+  String get homeServiceBattery;
+
+  /// No description provided for @homeServiceTowing.
+  ///
+  /// In en, this message translates to:
+  /// **'Towing'**
+  String get homeServiceTowing;
+
+  /// No description provided for @homeServiceFuel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel Delivery'**
+  String get homeServiceFuel;
+
+  /// No description provided for @homeServiceAccident.
+  ///
+  /// In en, this message translates to:
+  /// **'Accident Recovery'**
+  String get homeServiceAccident;
+
+  /// No description provided for @homeNearbyMechanicsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby Mechanics'**
+  String get homeNearbyMechanicsTitle;
+
+  /// No description provided for @homeSortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get homeSortLabel;
+
+  /// No description provided for @homeSortByDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance'**
+  String get homeSortByDistance;
+
+  /// No description provided for @homeSortByRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get homeSortByRating;
+
+  /// No description provided for @homeSortByName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get homeSortByName;
+
+  /// No description provided for @homeMechanicAwan.
+  ///
+  /// In en, this message translates to:
+  /// **'Awan Auto'**
+  String get homeMechanicAwan;
+
+  /// No description provided for @homeMechanicArfan.
+  ///
+  /// In en, this message translates to:
+  /// **'Arfan Auto'**
+  String get homeMechanicArfan;
+
+  /// No description provided for @homeMechanicEhsan.
+  ///
+  /// In en, this message translates to:
+  /// **'Ehsan Auto'**
+  String get homeMechanicEhsan;
+
+  /// No description provided for @homeMechanicPakistan.
+  ///
+  /// In en, this message translates to:
+  /// **'Pakistan Auto'**
+  String get homeMechanicPakistan;
+
+  /// No description provided for @homeMechanicAwami.
+  ///
+  /// In en, this message translates to:
+  /// **'Awami Auto'**
+  String get homeMechanicAwami;
+
+  /// No description provided for @homeTabHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get homeTabHome;
+
+  /// No description provided for @homeTabRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests'**
+  String get homeTabRequests;
+
+  /// No description provided for @homeTabHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get homeTabHistory;
+
+  /// No description provided for @homeTabProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get homeTabProfile;
+
+  /// No description provided for @homeRequestsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests'**
+  String get homeRequestsTitle;
+
+  /// No description provided for @homeRequestsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open your emergency request in one tap.'**
+  String get homeRequestsSubtitle;
+
+  /// No description provided for @homeRequestEmergencyNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Need Emergency Assistance?'**
+  String get homeRequestEmergencyNow;
+
+  /// No description provided for @homeSosRequestOpened.
+  ///
+  /// In en, this message translates to:
+  /// **'SOS request opened successfully.'**
+  String get homeSosRequestOpened;
+
+  /// No description provided for @homeHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get homeHistoryTitle;
+
+  /// No description provided for @homeHistorySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No request history available yet.'**
+  String get homeHistorySubtitle;
+
+  /// No description provided for @homeProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get homeProfileTitle;
+
+  /// No description provided for @homeProfileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your account preferences.'**
+  String get homeProfileSubtitle;
+
+  /// No description provided for @homeMapScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get homeMapScreenTitle;
+
+  /// No description provided for @homeOpenMapButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Maps'**
+  String get homeOpenMapButton;
+
+  /// No description provided for @homeOpenMapFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open maps right now.'**
+  String get homeOpenMapFailed;
+
+  /// No description provided for @homeMapLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Fetching live location...'**
+  String get homeMapLoading;
+
+  /// No description provided for @homeMapPermissionNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission is needed to show your live map.'**
+  String get homeMapPermissionNeeded;
+
+  /// No description provided for @homeMapRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get homeMapRetry;
+
+  /// No description provided for @homeMapLiveMarkerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You are here'**
+  String get homeMapLiveMarkerTitle;
+
+  /// No description provided for @homeMenuProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get homeMenuProfile;
+
+  /// No description provided for @homeMenuLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get homeMenuLanguage;
+
+  /// No description provided for @homeMenuContactUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get homeMenuContactUs;
+
+  /// No description provided for @homeMenuSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting'**
+  String get homeMenuSetting;
+
+  /// No description provided for @homeMenuLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get homeMenuLogout;
+
+  /// No description provided for @homeContactUsSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us will be available soon.'**
+  String get homeContactUsSoon;
+
+  /// No description provided for @homeSettingsSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings will be available soon.'**
+  String get homeSettingsSoon;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

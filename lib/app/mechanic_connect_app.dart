@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/create_account_screen.dart';
+import '../features/auth/presentation/forgot_password_screen.dart';
 import '../features/home/presentation/home_screen.dart';
+import '../features/home/presentation/map_screen.dart';
 import '../features/splash/presentation/intro_screen.dart';
 import '../l10n/app_locale.dart';
 import '../l10n/app_localizations.dart';
@@ -39,8 +41,10 @@ class MechanicConnectApp extends StatelessWidget {
             SplashScreen.routeName: (_) => const SplashScreen(),
             LoginScreen.routeName: (_) => const LoginScreen(),
             CreateAccountScreen.routeName: (_) => const CreateAccountScreen(),
+            ForgotPasswordScreen.routeName: (_) => const ForgotPasswordScreen(),
             IntroScreen.routeName: (_) => const IntroScreen(),
             HomeScreen.routeName: (_) => const HomeScreen(),
+            MapScreen.routeName: (_) => const MapScreen(),
           },
         );
       },
