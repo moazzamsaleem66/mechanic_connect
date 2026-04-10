@@ -1,16 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -2812,7 +2808,6 @@ class _ProfileTabState extends State<_ProfileTab> {
   String _profilePhotoUrl = '';
   String _email = '';
   bool _saving = false;
-  bool _uploadingPhoto = false;
   String _lastHydratedSignature = '';
   bool _hydratedOnce = false;
 
@@ -2980,34 +2975,6 @@ class _ProfileTabState extends State<_ProfileTab> {
     );
   }
 
-  List<String> _storageBucketCandidates() {
-    final raw = _safeTrim(Firebase.app().options.storageBucket);
-    if (raw.isEmpty) return const [];
-
-    String normalizeToGs(String value) {
-      if (value.startsWith('gs://')) return value;
-      return 'gs://$value';
-    }
-
-    final candidates = <String>{normalizeToGs(raw)};
-    final withoutGs = raw.startsWith('gs://') ? raw.substring(5) : raw;
-    if (withoutGs.endsWith('.firebasestorage.app')) {
-      candidates.add(
-        normalizeToGs(
-          withoutGs.replaceFirst('.firebasestorage.app', '.appspot.com'),
-        ),
-      );
-    }
-    if (withoutGs.endsWith('.appspot.com')) {
-      candidates.add(
-        normalizeToGs(
-          withoutGs.replaceFirst('.appspot.com', '.firebasestorage.app'),
-        ),
-      );
-    }
-    return candidates.toList();
-  }
-
   int _profileScore() {
     var score = 72;
     if (_safeTrim(_nameController.text).isNotEmpty) score += 8;
@@ -3134,92 +3101,6 @@ class _ProfileTabState extends State<_ProfileTab> {
         _ageController.text = updatedAge;
         _phoneController.text = updatedPhone;
       });
-    }
-  }
-
-  Future<void> _pickAndUploadImage() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null || _uploadingPhoto) return;
-
-    setState(() => _uploadingPhoto = true);
-
-    try {
-      final picked = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 80,
-        maxWidth: 1200,
-      );
-
-      if (picked == null) {
-        setState(() => _uploadingPhoto = false);
-        return;
-      }
-
-      final bucketCandidates = _storageBucketCandidates();
-      if (bucketCandidates.isEmpty) {
-        throw FirebaseException(
-          plugin: 'firebase_storage',
-          code: 'bucket-not-configured',
-          message: 'Firebase Storage bucket is missing in app config.',
-        );
-      }
-
-      final file = File(picked.path);
-      final objectPath =
-          'profile_images/${user.uid}/${DateTime.now().millisecondsSinceEpoch}.jpg';
-
-      String? imageUrl;
-      FirebaseException? lastError;
-
-      for (final bucket in bucketCandidates) {
-        try {
-          final storage = FirebaseStorage.instanceFor(bucket: bucket);
-          final ref = storage.ref().child(objectPath);
-          await ref.putFile(file);
-          imageUrl = await ref.getDownloadURL();
-          break;
-        } on FirebaseException catch (e) {
-          lastError = e;
-          final retriableBucketMismatch =
-              e.code == 'object-not-found' || e.code == 'bucket-not-found';
-          if (!retriableBucketMismatch) {
-            rethrow;
-          }
-        }
-      }
-
-      if (imageUrl == null) {
-        throw lastError ??
-            FirebaseException(
-              plugin: 'firebase_storage',
-              code: 'upload-failed',
-              message: 'Image upload failed.',
-            );
-      }
-      final uploadedImageUrl = imageUrl;
-
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-        'profilePhotoUrl': uploadedImageUrl,
-        'updatedAt': FieldValue.serverTimestamp(),
-      }, SetOptions(merge: true));
-
-      await user.updatePhotoURL(uploadedImageUrl);
-
-      if (!mounted) return;
-      setState(() => _profilePhotoUrl = uploadedImageUrl);
-      _showToast(context.l10n.profileImageUploadSuccess);
-    } on FirebaseException catch (e) {
-      if (!mounted) return;
-      _showToast(
-        '${context.l10n.profileImageUploadError} (${e.message ?? e.code})',
-      );
-    } catch (_) {
-      if (!mounted) return;
-      _showToast(context.l10n.profileImageUploadError);
-    } finally {
-      if (mounted) {
-        setState(() => _uploadingPhoto = false);
-      }
     }
   }
 
@@ -3576,7 +3457,7 @@ class _ProfileTabState extends State<_ProfileTab> {
         final ageValue = _safeTrim(_ageController.text);
         final hasUnsavedChanges =
             _hydratedOnce && _localSignature() != _lastHydratedSignature;
-        final showLoader = isFetchingProfile || _saving || _uploadingPhoto;
+        final showLoader = isFetchingProfile || _saving;
 
         return Stack(
           children: [
@@ -3812,18 +3693,6 @@ class _ProfileTabState extends State<_ProfileTab> {
                           label: context.l10n.profileAgeLabel,
                           value: ageValue,
                         ),
-                        if (_uploadingPhoto) ...[
-                          const SizedBox(height: 8),
-                          Text(
-                            context.l10n.profileImageUploading,
-                            style: const TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF6B7280),
-                            ),
-                          ),
-                        ],
                       ],
                     ),
                   ),
