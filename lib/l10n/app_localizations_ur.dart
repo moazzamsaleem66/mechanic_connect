@@ -520,4 +520,272 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get homeSettingsSoon => 'سیٹنگز جلد دستیاب ہوں گی۔';
+
+  @override
+  String get homeRequestsStatusSent => 'ریکویسٹ بھیج دی گئی';
+
+  @override
+  String get homeRequestsStatusAccepted => 'قبول ہوگئی';
+
+  @override
+  String get homeRequestsStatusOnWay => 'راستے میں';
+
+  @override
+  String get homeRequestsStatusArrived => 'پہنچ گیا';
+
+  @override
+  String get homeRequestsLiveUpdate => 'لائیو اپڈیٹ';
+
+  @override
+  String get homeRequestsTapMarkerHint => 'مکینک مارکر پر ٹیپ کریں';
+
+  @override
+  String get homeRequestsPendingStatus => 'مکینک کی قبولیت کا انتظار ہے';
+
+  @override
+  String get homeRequestsCancelWarning => 'اس ریکویسٹ کو منسوخ کرنے پر 500 کی کٹوتی ہوگی۔';
+
+  @override
+  String get homeRequestsCancelRequest => 'ریکویسٹ منسوخ کریں';
+
+  @override
+  String get homeRequestsKeepRequest => 'ریکویسٹ برقرار رکھیں';
+
+  @override
+  String get homeRequestsConfirmCancel => 'پھر بھی منسوخ کریں';
+
+  @override
+  String get homeRequestsMechanicWarning => 'اپنی گاڑی کے ساتھ رہیں اور بہتر مرئیت کے لیے ہیزرڈ لائٹس آن رکھیں۔';
+
+  @override
+  String get homeRequestsCallMechanic => 'مکینک کو کال کریں';
+
+  @override
+  String get homeRequestsCallFailed => 'اس وقت ڈائلر نہیں کھل سکا۔';
+
+  @override
+  String homeRequestsArrivingIn(int minutes) {
+    return '$minutes منٹ میں پہنچ رہے ہیں';
+  }
+
+  @override
+  String get requestDetailsAppTitle => 'مدد کار ریسکیو';
+
+  @override
+  String get requestDetailsUrgentPriority => 'فوری ترجیح';
+
+  @override
+  String get requestDetailsTitleLineOne => 'مدد چاہیے';
+
+  @override
+  String get requestDetailsTitleLineTwo => 'ابھی؟';
+
+  @override
+  String get requestDetailsSubtitle => 'ہمیں مسئلہ بتائیں۔ ٹیکنیشن فوری طور پر آپ کے GPS مقام پر بھیج دیا جائے گا۔';
+
+  @override
+  String get requestDetailsSelectVehicle => 'اپنی گاڑی منتخب کریں';
+
+  @override
+  String get requestDetailsVehicleOneName => 'سوک آر ایس';
+
+  @override
+  String get requestDetailsVehicleOneMeta => 'BBR-1293 • سفید';
+
+  @override
+  String get requestDetailsVehicleTwoName => 'سپورٹیج';
+
+  @override
+  String get requestDetailsVehicleTwoMeta => 'AKL-0042 • سرمئی';
+
+  @override
+  String get requestDetailsPrimaryVehicle => 'پرائمری گاڑی';
+
+  @override
+  String get requestDetailsIssueSection => 'مسئلہ کیا ہے؟';
+
+  @override
+  String get requestDetailsIssueEngine => 'انجن';
+
+  @override
+  String get requestDetailsIssueFlatTire => 'پنکچر ٹائر';
+
+  @override
+  String get requestDetailsIssueDeadBattery => 'ڈیڈ بیٹری';
+
+  @override
+  String get requestDetailsIssueOther => 'دیگر';
+
+  @override
+  String get requestDetailsAdditionalNotes => 'اضافی نوٹس';
+
+  @override
+  String get requestDetailsOptional => 'اختیاری';
+
+  @override
+  String get requestDetailsNotesHint => 'مزید معلومات لکھیں (مثلاً قریب ترین نشان، دھواں، غیر معمولی آواز)...';
+
+  @override
+  String get requestDetailsDetectedLocation => 'موجودہ مقام';
+
+  @override
+  String get requestDetailsSubmit => 'ریکویسٹ جمع کریں';
+
+  @override
+  String get requestDetailsSubmitted => 'ریکویسٹ کامیابی سے جمع ہوگئی۔';
+
+  @override
+  String get contactSubjectLabel => 'موضوع';
+
+  @override
+  String get contactMessageLabel => 'پیغام';
+
+  @override
+  String get contactValidation => 'براہِ کرم موضوع اور پیغام درج کریں۔';
+
+  @override
+  String get contactSentSuccess => 'پیغام کامیابی سے بھیج دیا گیا۔';
+
+  @override
+  String get contactSendButton => 'بھیجیں';
+
+  @override
+  String get historyFilterAll => 'تمام';
+
+  @override
+  String get historyFilterRequested => 'ریکویسٹڈ';
+
+  @override
+  String get historyFilterAccepted => 'قبول شدہ';
+
+  @override
+  String get historyFilterCancelled => 'منسوخ';
+
+  @override
+  String get historyNoRecords => 'کوئی ریکویسٹ ہسٹری موجود نہیں۔';
+
+  @override
+  String get commonSaving => 'محفوظ کیا جا رہا ہے...';
+
+  @override
+  String get profileAgeLabel => 'عمر';
+
+  @override
+  String get profilePhotoUrlLabel => 'پروفائل تصویر URL';
+
+  @override
+  String get profileCarsSection => 'گاڑی کی تفصیلات';
+
+  @override
+  String get profileFleetSection => 'میرا فلیٹ';
+
+  @override
+  String get profileCarTitle => 'گاڑی';
+
+  @override
+  String get profileAddCarButton => 'ایک اور گاڑی شامل کریں';
+
+  @override
+  String get profileAddVehicleShort => 'گاڑی شامل کریں';
+
+  @override
+  String get profileSaveButton => 'پروفائل محفوظ کریں';
+
+  @override
+  String get profileSaveSuccess => 'پروفائل کامیابی سے اپڈیٹ ہوگئی۔';
+
+  @override
+  String get profileSaveError => 'اس وقت پروفائل اپڈیٹ نہیں ہوسکی۔';
+
+  @override
+  String get profileContactEditTitle => 'رابطہ معلومات میں ترمیم';
+
+  @override
+  String get profileContactSaveButton => 'رابطہ محفوظ کریں';
+
+  @override
+  String get profileImageUploadSuccess => 'پروفائل تصویر اپڈیٹ ہوگئی۔';
+
+  @override
+  String get profileImageUploadError => 'تصویر اپلوڈ نہ ہو سکی۔ دوبارہ کوشش کریں۔';
+
+  @override
+  String get profileImageUploading => 'تصویر اپلوڈ ہو رہی ہے...';
+
+  @override
+  String get profileVehicleEditTitle => 'گاڑی میں ترمیم';
+
+  @override
+  String get profileVehicleAddTitle => 'گاڑی شامل کریں';
+
+  @override
+  String get profileVehicleValidation => 'گاڑی کا ماڈل اور نمبر لازمی ہیں۔';
+
+  @override
+  String get profileVehicleSaveButton => 'گاڑی محفوظ کریں';
+
+  @override
+  String get profileMemberType => 'پریمیم ممبر';
+
+  @override
+  String get profileVerified => 'تصدیق شدہ';
+
+  @override
+  String profileSinceYear(String year) {
+    return '$year سے';
+  }
+
+  @override
+  String get profileSafetyScoreTitle => 'سیفٹی اسکور';
+
+  @override
+  String get profileContactSection => 'رابطہ معلومات';
+
+  @override
+  String get profileEditButton => 'ترمیم';
+
+  @override
+  String get profileEmailLabel => 'ای میل';
+
+  @override
+  String get profilePhoneLabel => 'فون';
+
+  @override
+  String get profileVehicleEditButton => 'ترمیم';
+
+  @override
+  String get profileVehicleInsured => 'انشورڈ';
+
+  @override
+  String get profileNoVehicles => 'ابھی تک کوئی گاڑی شامل نہیں کی گئی۔';
+
+  @override
+  String get profileVehicleUnknown => 'گاڑی';
+
+  @override
+  String get profileVehicleUntitled => 'گاڑی کی تفصیل';
+
+  @override
+  String get profileVehicleLabelModel => 'ماڈل';
+
+  @override
+  String get profileVehicleLabelManufacturer => 'مینوفیکچرر';
+
+  @override
+  String get profileVehicleLabelColor => 'رنگ';
+
+  @override
+  String get profileVehicleLabelNumber => 'نمبر';
+
+  @override
+  String get profileVehicleLabelType => 'قسم';
+
+  @override
+  String get profileVehicleLabelYear => 'سال';
+
+  @override
+  String get profileNaValue => 'دستیاب نہیں';
+
+  @override
+  String get profilePleaseUpdate => 'براہِ کرم اپڈیٹ کریں';
 }

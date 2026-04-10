@@ -1,16 +1,23 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../theme/theme.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  const MapScreen({
+    super.key,
+    this.mechanicDetails,
+  });
 
   static const String routeName = '/map-screen';
+
+  final MechanicMapDetails? mechanicDetails;
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -25,6 +32,7 @@ class _MapScreenState extends State<MapScreen> {
   String _currentLocationText = '';
   bool _isLoading = true;
   bool _permissionGranted = false;
+  int _resolveToken = 0;
 
   @override
   void initState() {
@@ -85,10 +93,19 @@ class _MapScreenState extends State<MapScreen> {
         _isLoading = false;
         _permissionGranted = true;
       });
+      unawaited(
+        _resolveLocationName(
+          latitude: initialLatLng.latitude,
+          longitude: initialLatLng.longitude,
+        ),
+      );
 
       await _controller?.animateCamera(
         CameraUpdate.newCameraPosition(
-          CameraPosition(target: initialLatLng, zoom: 16),
+          CameraPosition(
+            target: widget.mechanicDetails?.location ?? initialLatLng,
+            zoom: 16,
+          ),
         ),
       );
 
@@ -104,6 +121,12 @@ class _MapScreenState extends State<MapScreen> {
           _currentLocation = next;
           _currentLocationText = _formatLocationText(next);
         });
+        unawaited(
+          _resolveLocationName(
+            latitude: next.latitude,
+            longitude: next.longitude,
+          ),
+        );
       });
     } catch (_) {
       if (mounted) {
@@ -118,6 +141,36 @@ class _MapScreenState extends State<MapScreen> {
 
   String _formatLocationText(LatLng position) {
     return '${position.latitude.toStringAsFixed(5)}, ${position.longitude.toStringAsFixed(5)}';
+  }
+
+  Future<void> _resolveLocationName({
+    required double latitude,
+    required double longitude,
+  }) async {
+    final token = ++_resolveToken;
+    try {
+      final placemarks = await placemarkFromCoordinates(latitude, longitude);
+      if (!mounted || token != _resolveToken || placemarks.isEmpty) return;
+      final place = placemarks.first;
+      final parts = <String>[
+        if ((place.subLocality ?? '').trim().isNotEmpty)
+          (place.subLocality ?? '').trim(),
+        if ((place.locality ?? '').trim().isNotEmpty)
+          (place.locality ?? '').trim(),
+        if ((place.country ?? '').trim().isNotEmpty)
+          (place.country ?? '').trim(),
+      ];
+      final label = parts.join(', ');
+      if (label.isEmpty) return;
+      setState(() => _currentLocationText = label);
+    } catch (_) {}
+  }
+
+  Future<void> _callMechanic() async {
+    final phone = widget.mechanicDetails?.phone;
+    if (phone == null || phone.isEmpty) return;
+    final uri = Uri(scheme: 'tel', path: phone);
+    await launchUrl(uri);
   }
 
   Future<void> _recenter() async {
@@ -176,6 +229,17 @@ class _MapScreenState extends State<MapScreen> {
                       title: context.l10n.homeMapLiveMarkerTitle,
                     ),
                   ),
+                  if (widget.mechanicDetails != null)
+                    Marker(
+                      markerId: const MarkerId('mechanic-focused'),
+                      position: widget.mechanicDetails!.location,
+                      icon: BitmapDescriptor.defaultMarkerWithHue(
+                        BitmapDescriptor.hueOrange,
+                      ),
+                      infoWindow: InfoWindow(
+                        title: widget.mechanicDetails!.name,
+                      ),
+                    ),
                 },
                 circles: {
                   Circle(
@@ -287,6 +351,85 @@ class _MapScreenState extends State<MapScreen> {
                     ),
                   ),
                 ),
+              if (widget.mechanicDetails != null)
+                Positioned(
+                  left: 12,
+                  right: 12,
+                  bottom: 12,
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x2200112E),
+                          blurRadius: 20,
+                          offset: Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.mechanicDetails!.name,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          widget.mechanicDetails!.specialty,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF5F6674),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '⭐ ${widget.mechanicDetails!.rating.toStringAsFixed(1)} • Avg ${widget.mechanicDetails!.avgPrice}',
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF5F6674),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 42,
+                          child: ElevatedButton.icon(
+                            onPressed: _callMechanic,
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            icon: const Icon(Icons.call_rounded),
+                            label: Text(
+                              widget.mechanicDetails!.phone,
+                              style: const TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
@@ -298,4 +441,22 @@ class _MapScreenState extends State<MapScreen> {
       ),
     );
   }
+}
+
+class MechanicMapDetails {
+  const MechanicMapDetails({
+    required this.name,
+    required this.specialty,
+    required this.rating,
+    required this.avgPrice,
+    required this.phone,
+    required this.location,
+  });
+
+  final String name;
+  final String specialty;
+  final double rating;
+  final String avgPrice;
+  final String phone;
+  final LatLng location;
 }

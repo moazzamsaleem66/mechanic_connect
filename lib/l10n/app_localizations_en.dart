@@ -520,4 +520,272 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeSettingsSoon => 'Settings will be available soon.';
+
+  @override
+  String get homeRequestsStatusSent => 'REQUEST SENT';
+
+  @override
+  String get homeRequestsStatusAccepted => 'ACCEPTED';
+
+  @override
+  String get homeRequestsStatusOnWay => 'ON THE WAY';
+
+  @override
+  String get homeRequestsStatusArrived => 'ARRIVED';
+
+  @override
+  String get homeRequestsLiveUpdate => 'LIVE UPDATE';
+
+  @override
+  String get homeRequestsTapMarkerHint => 'Tap a mechanic marker';
+
+  @override
+  String get homeRequestsPendingStatus => 'Waiting for mechanic acceptance';
+
+  @override
+  String get homeRequestsCancelWarning => 'Canceling this request will result in a 500 deduction.';
+
+  @override
+  String get homeRequestsCancelRequest => 'Cancel Request';
+
+  @override
+  String get homeRequestsKeepRequest => 'Keep Request';
+
+  @override
+  String get homeRequestsConfirmCancel => 'Cancel Anyway';
+
+  @override
+  String get homeRequestsMechanicWarning => 'Stay with your vehicle and keep your hazard lights on for better visibility.';
+
+  @override
+  String get homeRequestsCallMechanic => 'Call Mechanic';
+
+  @override
+  String get homeRequestsCallFailed => 'Could not open dialer right now.';
+
+  @override
+  String homeRequestsArrivingIn(int minutes) {
+    return 'Arriving in $minutes mins';
+  }
+
+  @override
+  String get requestDetailsAppTitle => 'Madad Car Rescue';
+
+  @override
+  String get requestDetailsUrgentPriority => 'URGENT PRIORITY';
+
+  @override
+  String get requestDetailsTitleLineOne => 'Need Help';
+
+  @override
+  String get requestDetailsTitleLineTwo => 'Right Now?';
+
+  @override
+  String get requestDetailsSubtitle => 'Tell us what\'s wrong. A technician will be dispatched to your GPS location immediately.';
+
+  @override
+  String get requestDetailsSelectVehicle => 'SELECT YOUR VEHICLE';
+
+  @override
+  String get requestDetailsVehicleOneName => 'Civic RS';
+
+  @override
+  String get requestDetailsVehicleOneMeta => 'BBR-1293 • White';
+
+  @override
+  String get requestDetailsVehicleTwoName => 'Sportage';
+
+  @override
+  String get requestDetailsVehicleTwoMeta => 'AKL-0042 • Grey';
+
+  @override
+  String get requestDetailsPrimaryVehicle => 'PRIMARY VEHICLE';
+
+  @override
+  String get requestDetailsIssueSection => 'WHAT\'S THE ISSUE?';
+
+  @override
+  String get requestDetailsIssueEngine => 'Engine';
+
+  @override
+  String get requestDetailsIssueFlatTire => 'Flat Tire';
+
+  @override
+  String get requestDetailsIssueDeadBattery => 'Dead Battery';
+
+  @override
+  String get requestDetailsIssueOther => 'Other';
+
+  @override
+  String get requestDetailsAdditionalNotes => 'ADDITIONAL NOTES';
+
+  @override
+  String get requestDetailsOptional => 'OPTIONAL';
+
+  @override
+  String get requestDetailsNotesHint => 'Tell us more (e.g., nearest landmark, smoke, strange noises)...';
+
+  @override
+  String get requestDetailsDetectedLocation => 'DETECTED LOCATION';
+
+  @override
+  String get requestDetailsSubmit => 'SUBMIT REQUEST';
+
+  @override
+  String get requestDetailsSubmitted => 'Request submitted successfully.';
+
+  @override
+  String get contactSubjectLabel => 'Subject';
+
+  @override
+  String get contactMessageLabel => 'Message';
+
+  @override
+  String get contactValidation => 'Please fill subject and message.';
+
+  @override
+  String get contactSentSuccess => 'Message sent successfully.';
+
+  @override
+  String get contactSendButton => 'Send';
+
+  @override
+  String get historyFilterAll => 'All';
+
+  @override
+  String get historyFilterRequested => 'Requested';
+
+  @override
+  String get historyFilterAccepted => 'Accepted';
+
+  @override
+  String get historyFilterCancelled => 'Cancelled';
+
+  @override
+  String get historyNoRecords => 'No request history found.';
+
+  @override
+  String get commonSaving => 'Saving...';
+
+  @override
+  String get profileAgeLabel => 'Age';
+
+  @override
+  String get profilePhotoUrlLabel => 'Profile Photo URL';
+
+  @override
+  String get profileCarsSection => 'Car Details';
+
+  @override
+  String get profileFleetSection => 'MY FLEET';
+
+  @override
+  String get profileCarTitle => 'Car';
+
+  @override
+  String get profileAddCarButton => 'Add another car';
+
+  @override
+  String get profileAddVehicleShort => 'Add Vehicle';
+
+  @override
+  String get profileSaveButton => 'Save Profile';
+
+  @override
+  String get profileSaveSuccess => 'Profile updated successfully.';
+
+  @override
+  String get profileSaveError => 'Could not update profile right now.';
+
+  @override
+  String get profileContactEditTitle => 'Edit Contact Information';
+
+  @override
+  String get profileContactSaveButton => 'Save Contact';
+
+  @override
+  String get profileImageUploadSuccess => 'Profile image updated.';
+
+  @override
+  String get profileImageUploadError => 'Image upload failed. Try again.';
+
+  @override
+  String get profileImageUploading => 'Uploading image...';
+
+  @override
+  String get profileVehicleEditTitle => 'Edit Vehicle';
+
+  @override
+  String get profileVehicleAddTitle => 'Add Vehicle';
+
+  @override
+  String get profileVehicleValidation => 'Vehicle model and number are required.';
+
+  @override
+  String get profileVehicleSaveButton => 'Save Vehicle';
+
+  @override
+  String get profileMemberType => 'Premium Member';
+
+  @override
+  String get profileVerified => 'VERIFIED';
+
+  @override
+  String profileSinceYear(String year) {
+    return 'SINCE $year';
+  }
+
+  @override
+  String get profileSafetyScoreTitle => 'SAFETY SCORE';
+
+  @override
+  String get profileContactSection => 'CONTACT INFORMATION';
+
+  @override
+  String get profileEditButton => 'Edit';
+
+  @override
+  String get profileEmailLabel => 'Email';
+
+  @override
+  String get profilePhoneLabel => 'Phone';
+
+  @override
+  String get profileVehicleEditButton => 'Edit';
+
+  @override
+  String get profileVehicleInsured => 'INSURED';
+
+  @override
+  String get profileNoVehicles => 'No vehicles added yet.';
+
+  @override
+  String get profileVehicleUnknown => 'Vehicle';
+
+  @override
+  String get profileVehicleUntitled => 'Car Details';
+
+  @override
+  String get profileVehicleLabelModel => 'Model';
+
+  @override
+  String get profileVehicleLabelManufacturer => 'Manufacturer';
+
+  @override
+  String get profileVehicleLabelColor => 'Color';
+
+  @override
+  String get profileVehicleLabelNumber => 'Number';
+
+  @override
+  String get profileVehicleLabelType => 'Type';
+
+  @override
+  String get profileVehicleLabelYear => 'Year';
+
+  @override
+  String get profileNaValue => 'NA';
+
+  @override
+  String get profilePleaseUpdate => 'Please update';
 }

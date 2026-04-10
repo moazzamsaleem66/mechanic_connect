@@ -1120,6 +1120,534 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings will be available soon.'**
   String get homeSettingsSoon;
+
+  /// No description provided for @homeRequestsStatusSent.
+  ///
+  /// In en, this message translates to:
+  /// **'REQUEST SENT'**
+  String get homeRequestsStatusSent;
+
+  /// No description provided for @homeRequestsStatusAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCEPTED'**
+  String get homeRequestsStatusAccepted;
+
+  /// No description provided for @homeRequestsStatusOnWay.
+  ///
+  /// In en, this message translates to:
+  /// **'ON THE WAY'**
+  String get homeRequestsStatusOnWay;
+
+  /// No description provided for @homeRequestsStatusArrived.
+  ///
+  /// In en, this message translates to:
+  /// **'ARRIVED'**
+  String get homeRequestsStatusArrived;
+
+  /// No description provided for @homeRequestsLiveUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'LIVE UPDATE'**
+  String get homeRequestsLiveUpdate;
+
+  /// No description provided for @homeRequestsTapMarkerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a mechanic marker'**
+  String get homeRequestsTapMarkerHint;
+
+  /// No description provided for @homeRequestsPendingStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for mechanic acceptance'**
+  String get homeRequestsPendingStatus;
+
+  /// No description provided for @homeRequestsCancelWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Canceling this request will result in a 500 deduction.'**
+  String get homeRequestsCancelWarning;
+
+  /// No description provided for @homeRequestsCancelRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Request'**
+  String get homeRequestsCancelRequest;
+
+  /// No description provided for @homeRequestsKeepRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Request'**
+  String get homeRequestsKeepRequest;
+
+  /// No description provided for @homeRequestsConfirmCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Anyway'**
+  String get homeRequestsConfirmCancel;
+
+  /// No description provided for @homeRequestsMechanicWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay with your vehicle and keep your hazard lights on for better visibility.'**
+  String get homeRequestsMechanicWarning;
+
+  /// No description provided for @homeRequestsCallMechanic.
+  ///
+  /// In en, this message translates to:
+  /// **'Call Mechanic'**
+  String get homeRequestsCallMechanic;
+
+  /// No description provided for @homeRequestsCallFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open dialer right now.'**
+  String get homeRequestsCallFailed;
+
+  /// No description provided for @homeRequestsArrivingIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Arriving in {minutes} mins'**
+  String homeRequestsArrivingIn(int minutes);
+
+  /// No description provided for @requestDetailsAppTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Madad Car Rescue'**
+  String get requestDetailsAppTitle;
+
+  /// No description provided for @requestDetailsUrgentPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'URGENT PRIORITY'**
+  String get requestDetailsUrgentPriority;
+
+  /// No description provided for @requestDetailsTitleLineOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Need Help'**
+  String get requestDetailsTitleLineOne;
+
+  /// No description provided for @requestDetailsTitleLineTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Right Now?'**
+  String get requestDetailsTitleLineTwo;
+
+  /// No description provided for @requestDetailsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us what\'s wrong. A technician will be dispatched to your GPS location immediately.'**
+  String get requestDetailsSubtitle;
+
+  /// No description provided for @requestDetailsSelectVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'SELECT YOUR VEHICLE'**
+  String get requestDetailsSelectVehicle;
+
+  /// No description provided for @requestDetailsVehicleOneName.
+  ///
+  /// In en, this message translates to:
+  /// **'Civic RS'**
+  String get requestDetailsVehicleOneName;
+
+  /// No description provided for @requestDetailsVehicleOneMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'BBR-1293 • White'**
+  String get requestDetailsVehicleOneMeta;
+
+  /// No description provided for @requestDetailsVehicleTwoName.
+  ///
+  /// In en, this message translates to:
+  /// **'Sportage'**
+  String get requestDetailsVehicleTwoName;
+
+  /// No description provided for @requestDetailsVehicleTwoMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'AKL-0042 • Grey'**
+  String get requestDetailsVehicleTwoMeta;
+
+  /// No description provided for @requestDetailsPrimaryVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'PRIMARY VEHICLE'**
+  String get requestDetailsPrimaryVehicle;
+
+  /// No description provided for @requestDetailsIssueSection.
+  ///
+  /// In en, this message translates to:
+  /// **'WHAT\'S THE ISSUE?'**
+  String get requestDetailsIssueSection;
+
+  /// No description provided for @requestDetailsIssueEngine.
+  ///
+  /// In en, this message translates to:
+  /// **'Engine'**
+  String get requestDetailsIssueEngine;
+
+  /// No description provided for @requestDetailsIssueFlatTire.
+  ///
+  /// In en, this message translates to:
+  /// **'Flat Tire'**
+  String get requestDetailsIssueFlatTire;
+
+  /// No description provided for @requestDetailsIssueDeadBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'Dead Battery'**
+  String get requestDetailsIssueDeadBattery;
+
+  /// No description provided for @requestDetailsIssueOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get requestDetailsIssueOther;
+
+  /// No description provided for @requestDetailsAdditionalNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'ADDITIONAL NOTES'**
+  String get requestDetailsAdditionalNotes;
+
+  /// No description provided for @requestDetailsOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'OPTIONAL'**
+  String get requestDetailsOptional;
+
+  /// No description provided for @requestDetailsNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us more (e.g., nearest landmark, smoke, strange noises)...'**
+  String get requestDetailsNotesHint;
+
+  /// No description provided for @requestDetailsDetectedLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'DETECTED LOCATION'**
+  String get requestDetailsDetectedLocation;
+
+  /// No description provided for @requestDetailsSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'SUBMIT REQUEST'**
+  String get requestDetailsSubmit;
+
+  /// No description provided for @requestDetailsSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Request submitted successfully.'**
+  String get requestDetailsSubmitted;
+
+  /// No description provided for @contactSubjectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get contactSubjectLabel;
+
+  /// No description provided for @contactMessageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get contactMessageLabel;
+
+  /// No description provided for @contactValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill subject and message.'**
+  String get contactValidation;
+
+  /// No description provided for @contactSentSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Message sent successfully.'**
+  String get contactSentSuccess;
+
+  /// No description provided for @contactSendButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get contactSendButton;
+
+  /// No description provided for @historyFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get historyFilterAll;
+
+  /// No description provided for @historyFilterRequested.
+  ///
+  /// In en, this message translates to:
+  /// **'Requested'**
+  String get historyFilterRequested;
+
+  /// No description provided for @historyFilterAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get historyFilterAccepted;
+
+  /// No description provided for @historyFilterCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get historyFilterCancelled;
+
+  /// No description provided for @historyNoRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'No request history found.'**
+  String get historyNoRecords;
+
+  /// No description provided for @commonSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get commonSaving;
+
+  /// No description provided for @profileAgeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get profileAgeLabel;
+
+  /// No description provided for @profilePhotoUrlLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Photo URL'**
+  String get profilePhotoUrlLabel;
+
+  /// No description provided for @profileCarsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Car Details'**
+  String get profileCarsSection;
+
+  /// No description provided for @profileFleetSection.
+  ///
+  /// In en, this message translates to:
+  /// **'MY FLEET'**
+  String get profileFleetSection;
+
+  /// No description provided for @profileCarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Car'**
+  String get profileCarTitle;
+
+  /// No description provided for @profileAddCarButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add another car'**
+  String get profileAddCarButton;
+
+  /// No description provided for @profileAddVehicleShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Vehicle'**
+  String get profileAddVehicleShort;
+
+  /// No description provided for @profileSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Profile'**
+  String get profileSaveButton;
+
+  /// No description provided for @profileSaveSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully.'**
+  String get profileSaveSuccess;
+
+  /// No description provided for @profileSaveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update profile right now.'**
+  String get profileSaveError;
+
+  /// No description provided for @profileContactEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Contact Information'**
+  String get profileContactEditTitle;
+
+  /// No description provided for @profileContactSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Contact'**
+  String get profileContactSaveButton;
+
+  /// No description provided for @profileImageUploadSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile image updated.'**
+  String get profileImageUploadSuccess;
+
+  /// No description provided for @profileImageUploadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Image upload failed. Try again.'**
+  String get profileImageUploadError;
+
+  /// No description provided for @profileImageUploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading image...'**
+  String get profileImageUploading;
+
+  /// No description provided for @profileVehicleEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Vehicle'**
+  String get profileVehicleEditTitle;
+
+  /// No description provided for @profileVehicleAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Vehicle'**
+  String get profileVehicleAddTitle;
+
+  /// No description provided for @profileVehicleValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle model and number are required.'**
+  String get profileVehicleValidation;
+
+  /// No description provided for @profileVehicleSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Vehicle'**
+  String get profileVehicleSaveButton;
+
+  /// No description provided for @profileMemberType.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium Member'**
+  String get profileMemberType;
+
+  /// No description provided for @profileVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'VERIFIED'**
+  String get profileVerified;
+
+  /// No description provided for @profileSinceYear.
+  ///
+  /// In en, this message translates to:
+  /// **'SINCE {year}'**
+  String profileSinceYear(String year);
+
+  /// No description provided for @profileSafetyScoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SAFETY SCORE'**
+  String get profileSafetyScoreTitle;
+
+  /// No description provided for @profileContactSection.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTACT INFORMATION'**
+  String get profileContactSection;
+
+  /// No description provided for @profileEditButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get profileEditButton;
+
+  /// No description provided for @profileEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get profileEmailLabel;
+
+  /// No description provided for @profilePhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get profilePhoneLabel;
+
+  /// No description provided for @profileVehicleEditButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get profileVehicleEditButton;
+
+  /// No description provided for @profileVehicleInsured.
+  ///
+  /// In en, this message translates to:
+  /// **'INSURED'**
+  String get profileVehicleInsured;
+
+  /// No description provided for @profileNoVehicles.
+  ///
+  /// In en, this message translates to:
+  /// **'No vehicles added yet.'**
+  String get profileNoVehicles;
+
+  /// No description provided for @profileVehicleUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get profileVehicleUnknown;
+
+  /// No description provided for @profileVehicleUntitled.
+  ///
+  /// In en, this message translates to:
+  /// **'Car Details'**
+  String get profileVehicleUntitled;
+
+  /// No description provided for @profileVehicleLabelModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get profileVehicleLabelModel;
+
+  /// No description provided for @profileVehicleLabelManufacturer.
+  ///
+  /// In en, this message translates to:
+  /// **'Manufacturer'**
+  String get profileVehicleLabelManufacturer;
+
+  /// No description provided for @profileVehicleLabelColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get profileVehicleLabelColor;
+
+  /// No description provided for @profileVehicleLabelNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Number'**
+  String get profileVehicleLabelNumber;
+
+  /// No description provided for @profileVehicleLabelType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get profileVehicleLabelType;
+
+  /// No description provided for @profileVehicleLabelYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get profileVehicleLabelYear;
+
+  /// No description provided for @profileNaValue.
+  ///
+  /// In en, this message translates to:
+  /// **'NA'**
+  String get profileNaValue;
+
+  /// No description provided for @profilePleaseUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Please update'**
+  String get profilePleaseUpdate;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
