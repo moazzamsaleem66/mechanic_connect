@@ -4,13 +4,15 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../l10n/app_locale.dart';
@@ -18,6 +20,7 @@ import '../../../l10n/l10n.dart';
 import '../../../theme/theme.dart';
 import '../../auth/data/auth_session_store.dart';
 import '../../auth/presentation/login_screen.dart';
+import '../../shared/widgets/blue_loader_overlay.dart';
 import 'map_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -2928,22 +2931,11 @@ class _ProfileTabState extends State<_ProfileTab> {
     );
   }
 
-  void _hydrateFromDoc({
+  void _applyHydrationFromDoc({
     required Map<String, dynamic> data,
     required User user,
+    required String remoteSignature,
   }) {
-    final remoteSignature = _remoteSignature(data: data, user: user);
-    final localSignature = _localSignature();
-    final hasLocalUnsavedChanges =
-        _hydratedOnce && _lastHydratedSignature != localSignature;
-
-    if (hasLocalUnsavedChanges) {
-      return;
-    }
-    if (_hydratedOnce && remoteSignature == _lastHydratedSignature) {
-      return;
-    }
-
     _nameController.text =
         (data['fullName'] ?? user.displayName ?? '').toString();
     _ageController.text = (data['age'] ?? '').toString();
@@ -2956,6 +2948,64 @@ class _ProfileTabState extends State<_ProfileTab> {
     _vehicles.addAll(_extractVehiclesFromData(data));
     _lastHydratedSignature = remoteSignature;
     _hydratedOnce = true;
+  }
+
+  void _syncFromDocSafely({
+    required Map<String, dynamic> data,
+    required User user,
+  }) {
+    final remoteSignature = _remoteSignature(data: data, user: user);
+    final localSignature = _localSignature();
+    final hasLocalUnsavedChanges =
+        _hydratedOnce && _lastHydratedSignature != localSignature;
+
+    if (hasLocalUnsavedChanges) return;
+    if (_hydratedOnce && remoteSignature == _lastHydratedSignature) return;
+    _applyHydrationFromDoc(
+      data: data,
+      user: user,
+      remoteSignature: remoteSignature,
+    );
+  }
+
+  void _showToast(String message) {
+    Fluttertoast.cancel();
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: const Color(0xFF0C2E73),
+      textColor: Colors.white,
+      fontSize: 14,
+    );
+  }
+
+  List<String> _storageBucketCandidates() {
+    final raw = _safeTrim(Firebase.app().options.storageBucket);
+    if (raw.isEmpty) return const [];
+
+    String normalizeToGs(String value) {
+      if (value.startsWith('gs://')) return value;
+      return 'gs://$value';
+    }
+
+    final candidates = <String>{normalizeToGs(raw)};
+    final withoutGs = raw.startsWith('gs://') ? raw.substring(5) : raw;
+    if (withoutGs.endsWith('.firebasestorage.app')) {
+      candidates.add(
+        normalizeToGs(
+          withoutGs.replaceFirst('.firebasestorage.app', '.appspot.com'),
+        ),
+      );
+    }
+    if (withoutGs.endsWith('.appspot.com')) {
+      candidates.add(
+        normalizeToGs(
+          withoutGs.replaceFirst('.appspot.com', '.firebasestorage.app'),
+        ),
+      );
+    }
+    return candidates.toList();
   }
 
   int _profileScore() {
@@ -3078,10 +3128,6 @@ class _ProfileTabState extends State<_ProfileTab> {
     final updatedAge = ageController.text.trim();
     final updatedPhone = phoneController.text.trim();
 
-    nameController.dispose();
-    ageController.dispose();
-    phoneController.dispose();
-
     if (saved == true && mounted) {
       setState(() {
         _nameController.text = updatedName;
@@ -3109,33 +3155,67 @@ class _ProfileTabState extends State<_ProfileTab> {
         return;
       }
 
-      final file = File(picked.path);
-      final ref = FirebaseStorage.instance
-          .ref()
-          .child('profile_images')
-          .child(user.uid)
-          .child('${DateTime.now().millisecondsSinceEpoch}.jpg');
+      final bucketCandidates = _storageBucketCandidates();
+      if (bucketCandidates.isEmpty) {
+        throw FirebaseException(
+          plugin: 'firebase_storage',
+          code: 'bucket-not-configured',
+          message: 'Firebase Storage bucket is missing in app config.',
+        );
+      }
 
-      await ref.putFile(file);
-      final imageUrl = await ref.getDownloadURL();
+      final file = File(picked.path);
+      final objectPath =
+          'profile_images/${user.uid}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+      String? imageUrl;
+      FirebaseException? lastError;
+
+      for (final bucket in bucketCandidates) {
+        try {
+          final storage = FirebaseStorage.instanceFor(bucket: bucket);
+          final ref = storage.ref().child(objectPath);
+          await ref.putFile(file);
+          imageUrl = await ref.getDownloadURL();
+          break;
+        } on FirebaseException catch (e) {
+          lastError = e;
+          final retriableBucketMismatch =
+              e.code == 'object-not-found' || e.code == 'bucket-not-found';
+          if (!retriableBucketMismatch) {
+            rethrow;
+          }
+        }
+      }
+
+      if (imageUrl == null) {
+        throw lastError ??
+            FirebaseException(
+              plugin: 'firebase_storage',
+              code: 'upload-failed',
+              message: 'Image upload failed.',
+            );
+      }
+      final uploadedImageUrl = imageUrl;
 
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-        'profilePhotoUrl': imageUrl,
+        'profilePhotoUrl': uploadedImageUrl,
         'updatedAt': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
 
-      await user.updatePhotoURL(imageUrl);
+      await user.updatePhotoURL(uploadedImageUrl);
 
       if (!mounted) return;
-      setState(() => _profilePhotoUrl = imageUrl);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.profileImageUploadSuccess)),
+      setState(() => _profilePhotoUrl = uploadedImageUrl);
+      _showToast(context.l10n.profileImageUploadSuccess);
+    } on FirebaseException catch (e) {
+      if (!mounted) return;
+      _showToast(
+        '${context.l10n.profileImageUploadError} (${e.message ?? e.code})',
       );
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.profileImageUploadError)),
-      );
+      _showToast(context.l10n.profileImageUploadError);
     } finally {
       if (mounted) {
         setState(() => _uploadingPhoto = false);
@@ -3280,12 +3360,7 @@ class _ProfileTabState extends State<_ProfileTab> {
                           onPressed: () {
                             if (modelController.text.trim().isEmpty ||
                                 numberController.text.trim().isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      context.l10n.profileVehicleValidation),
-                                ),
-                              );
+                              _showToast(context.l10n.profileVehicleValidation);
                               return;
                             }
 
@@ -3327,12 +3402,6 @@ class _ProfileTabState extends State<_ProfileTab> {
       },
     );
 
-    modelController.dispose();
-    numberController.dispose();
-    colorController.dispose();
-    yearController.dispose();
-    manufacturerController.dispose();
-
     if (saved == true && mounted) {
       setState(() {});
     }
@@ -3360,22 +3429,16 @@ class _ProfileTabState extends State<_ProfileTab> {
         'updatedAt': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
 
-      await user.updateDisplayName(_nameController.text.trim());
-      if (_profilePhotoUrl.trim().isNotEmpty) {
-        await user.updatePhotoURL(_profilePhotoUrl.trim());
-      }
-
       if (!mounted) return;
       _lastHydratedSignature = _localSignature();
       _hydratedOnce = true;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.profileSaveSuccess)),
-      );
+      _showToast(context.l10n.profileSaveSuccess);
+    } on FirebaseException catch (e) {
+      if (!mounted) return;
+      _showToast('${context.l10n.profileSaveError} (${e.message ?? e.code})');
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.profileSaveError)),
-      );
+      _showToast(context.l10n.profileSaveError);
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -3496,8 +3559,11 @@ class _ProfileTabState extends State<_ProfileTab> {
           .doc(user.uid)
           .snapshots(),
       builder: (context, snapshot) {
+        final isFetchingProfile =
+            snapshot.connectionState == ConnectionState.waiting &&
+                !_hydratedOnce;
         final data = snapshot.data?.data() ?? <String, dynamic>{};
-        _hydrateFromDoc(data: data, user: user);
+        _syncFromDocSafely(data: data, user: user);
 
         final score = _profileScore();
         final displayName = _safeTrim(_nameController.text).isEmpty
@@ -3510,87 +3576,88 @@ class _ProfileTabState extends State<_ProfileTab> {
         final ageValue = _safeTrim(_ageController.text);
         final hasUnsavedChanges =
             _hydratedOnce && _localSignature() != _lastHydratedSignature;
+        final showLoader = isFetchingProfile || _saving || _uploadingPhoto;
 
-        return SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(14, 14, 14, 96),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+        return Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(14, 14, 14, 96),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      if (Navigator.of(context).canPop()) {
-                        Navigator.of(context).maybePop();
-                      }
-                    },
-                    borderRadius: BorderRadius.circular(20),
-                    child: const Padding(
-                      padding: EdgeInsets.all(4),
-                      child: Icon(
-                        Icons.arrow_back_rounded,
-                        color: AppColors.primary,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    context.l10n.homeProfileTitle,
-                    style: const TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    context.l10n.requestDetailsAppTitle,
-                    style: const TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  CircleAvatar(
-                    radius: 14,
-                    backgroundColor: const Color(0xFFEAF0FF),
-                    backgroundImage: profileImageUrl.isEmpty
-                        ? null
-                        : NetworkImage(profileImageUrl),
-                    child: profileImageUrl.isEmpty
-                        ? const Icon(
-                            Icons.person_rounded,
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          if (Navigator.of(context).canPop()) {
+                            Navigator.of(context).maybePop();
+                          }
+                        },
+                        borderRadius: BorderRadius.circular(20),
+                        child: const Padding(
+                          padding: EdgeInsets.all(4),
+                          child: Icon(
+                            Icons.arrow_back_rounded,
                             color: AppColors.primary,
-                            size: 16,
-                          )
-                        : null,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        context.l10n.homeProfileTitle,
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        context.l10n.requestDetailsAppTitle,
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      CircleAvatar(
+                        radius: 14,
+                        backgroundColor: const Color(0xFFEAF0FF),
+                        backgroundImage: profileImageUrl.isEmpty
+                            ? null
+                            : NetworkImage(profileImageUrl),
+                        child: profileImageUrl.isEmpty
+                            ? const Icon(
+                                Icons.person_rounded,
+                                color: AppColors.primary,
+                                size: 16,
+                              )
+                            : null,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: const Color(0xFFE4E9F0)),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x11000D2C),
-                      blurRadius: 14,
-                      offset: Offset(0, 8),
+                  const SizedBox(height: 12),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: const Color(0xFFE4E9F0)),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x11000D2C),
+                          blurRadius: 14,
+                          offset: Offset(0, 8),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           width: 84,
@@ -3613,377 +3680,345 @@ class _ProfileTabState extends State<_ProfileTab> {
                                 )
                               : null,
                         ),
-                        Positioned(
-                          right: 0,
-                          bottom: 0,
-                          child: Material(
-                            color: const Color(0xFFD06C1D),
-                            borderRadius: BorderRadius.circular(12),
-                            child: InkWell(
-                              onTap:
-                                  _uploadingPhoto ? null : _pickAndUploadImage,
-                              borderRadius: BorderRadius.circular(12),
-                              child: SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: Center(
-                                  child: _uploadingPhoto
-                                      ? const SizedBox(
-                                          width: 12,
-                                          height: 12,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      : const Icon(
-                                          Icons.edit_rounded,
-                                          size: 13,
-                                          color: Colors.white,
-                                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                displayName,
+                                style: const TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  color: AppColors.primary,
                                 ),
                               ),
-                            ),
+                              const SizedBox(height: 3),
+                              Text(
+                                context.l10n.profileMemberType,
+                                style: const TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF6B7280),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Wrap(
+                                spacing: 6,
+                                runSpacing: 6,
+                                children: [
+                                  _TagChip(text: context.l10n.profileVerified),
+                                  _TagChip(
+                                    text: context.l10n
+                                        .profileSinceYear(memberSince),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            displayName,
-                            style: const TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 20,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.primary,
-                            ),
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFF0A3A86), Color(0xFF002E6E)],
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          context.l10n.profileSafetyScoreTitle,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 14,
+                            letterSpacing: 1.2,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFFDDE8FF),
                           ),
-                          const SizedBox(height: 3),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '$score',
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 50,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          height: 4,
+                          width: double.infinity,
+                          color: AppColors.secondary,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    children: [
+                      Text(
+                        context.l10n.profileContactSection,
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.2,
+                          color: Color(0xFF6B7280),
+                        ),
+                      ),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: _saving ? null : _openContactEditSheet,
+                        child: Text(context.l10n.profileEditButton),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFFE4E9F0)),
+                    ),
+                    child: Column(
+                      children: [
+                        _contactTile(
+                          icon: Icons.email_outlined,
+                          label: context.l10n.profileEmailLabel,
+                          value: emailValue,
+                        ),
+                        const SizedBox(height: 10),
+                        _contactTile(
+                          icon: Icons.phone_outlined,
+                          label: context.l10n.profilePhoneLabel,
+                          value: phoneValue,
+                        ),
+                        const SizedBox(height: 10),
+                        _contactTile(
+                          icon: Icons.cake_outlined,
+                          label: context.l10n.profileAgeLabel,
+                          value: ageValue,
+                        ),
+                        if (_uploadingPhoto) ...[
+                          const SizedBox(height: 8),
                           Text(
-                            context.l10n.profileMemberType,
+                            context.l10n.profileImageUploading,
                             style: const TextStyle(
                               fontFamily: 'Inter',
-                              fontSize: 14,
+                              fontSize: 12,
                               fontWeight: FontWeight.w600,
                               color: Color(0xFF6B7280),
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          Wrap(
-                            spacing: 6,
-                            runSpacing: 6,
+                        ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    children: [
+                      Text(
+                        context.l10n.profileFleetSection,
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.2,
+                          color: Color(0xFF6B7280),
+                        ),
+                      ),
+                      const Spacer(),
+                      ElevatedButton.icon(
+                        onPressed: _saving ? null : () => _openVehicleSheet(),
+                        icon: const Icon(Icons.add_rounded),
+                        label: Text(context.l10n.profileAddVehicleShort),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ..._vehicles.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final vehicle = entry.value;
+
+                    final model = _safeTrim(vehicle['model']);
+                    final number = _safeTrim(vehicle['number']);
+                    final color = _safeTrim(vehicle['color']);
+                    final year = _safeTrim(vehicle['year']);
+                    final manufacturer = _safeTrim(vehicle['manufacturer']);
+                    final type = _safeTrim(vehicle['type']);
+
+                    final vehicleTitle = model.isNotEmpty
+                        ? model
+                        : (manufacturer.isNotEmpty
+                            ? manufacturer
+                            : (number.isNotEmpty
+                                ? number
+                                : context.l10n.profileVehicleUntitled));
+
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFE4E9F0)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
                             children: [
-                              _TagChip(text: context.l10n.profileVerified),
-                              _TagChip(
-                                text:
-                                    context.l10n.profileSinceYear(memberSince),
+                              Expanded(
+                                child: Text(
+                                  vehicleTitle,
+                                  style: const TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w900,
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: _saving
+                                    ? null
+                                    : () => _openVehicleSheet(editIndex: index),
+                                icon: const Icon(
+                                  Icons.edit_outlined,
+                                  color: Color(0xFF8D96A5),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 2),
+                          _vehicleDetailItem(
+                            label: context.l10n.profileVehicleLabelModel,
+                            value: model,
+                          ),
+                          _vehicleDetailItem(
+                            label: context.l10n.profileVehicleLabelManufacturer,
+                            value: manufacturer,
+                          ),
+                          _vehicleDetailItem(
+                            label: context.l10n.profileVehicleLabelColor,
+                            value: color,
+                          ),
+                          _vehicleDetailItem(
+                            label: context.l10n.profileVehicleLabelNumber,
+                            value: number,
+                          ),
+                          _vehicleDetailItem(
+                            label: context.l10n.profileVehicleLabelType,
+                            value: type,
+                          ),
+                          _vehicleDetailItem(
+                            label: context.l10n.profileVehicleLabelYear,
+                            value: year,
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Container(
+                                width: 7,
+                                height: 7,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF7F6400),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                context.l10n.profileVehicleInsured,
+                                style: const TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF7F6400),
+                                ),
                               ),
                             ],
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 12),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0xFF0A3A86), Color(0xFF002E6E)],
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      context.l10n.profileSafetyScoreTitle,
-                      style: const TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 14,
-                        letterSpacing: 1.2,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFFDDE8FF),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '$score',
-                      style: const TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 50,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
+                    );
+                  }),
+                  if (_vehicles.isEmpty)
                     Container(
-                      height: 4,
                       width: double.infinity,
-                      color: AppColors.secondary,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 14),
-              Row(
-                children: [
-                  Text(
-                    context.l10n.profileContactSection,
-                    style: const TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.2,
-                      color: Color(0xFF6B7280),
-                    ),
-                  ),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: _saving ? null : _openContactEditSheet,
-                    child: Text(context.l10n.profileEditButton),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFFE4E9F0)),
-                ),
-                child: Column(
-                  children: [
-                    _contactTile(
-                      icon: Icons.email_outlined,
-                      label: context.l10n.profileEmailLabel,
-                      value: emailValue,
-                    ),
-                    const SizedBox(height: 10),
-                    _contactTile(
-                      icon: Icons.phone_outlined,
-                      label: context.l10n.profilePhoneLabel,
-                      value: phoneValue,
-                    ),
-                    const SizedBox(height: 10),
-                    _contactTile(
-                      icon: Icons.cake_outlined,
-                      label: context.l10n.profileAgeLabel,
-                      value: ageValue,
-                    ),
-                    if (_uploadingPhoto) ...[
-                      const SizedBox(height: 8),
-                      Text(
-                        context.l10n.profileImageUploading,
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: const Color(0xFFE4E9F0)),
+                      ),
+                      child: Text(
+                        context.l10n.profileNoVehicles,
                         style: const TextStyle(
                           fontFamily: 'Inter',
-                          fontSize: 12,
+                          fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFF6B7280),
+                          color: Color(0xFF6A707B),
                         ),
                       ),
-                    ],
+                    ),
+                  if (hasUnsavedChanges) ...[
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: ElevatedButton(
+                        onPressed: _saving ? null : _saveProfile,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                        child: Text(
+                          _saving
+                              ? context.l10n.commonSaving
+                              : context.l10n.profileSaveButton,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
-                ),
-              ),
-              const SizedBox(height: 14),
-              Row(
-                children: [
-                  Text(
-                    context.l10n.profileFleetSection,
-                    style: const TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.2,
-                      color: Color(0xFF6B7280),
-                    ),
-                  ),
-                  const Spacer(),
-                  ElevatedButton.icon(
-                    onPressed: _saving ? null : () => _openVehicleSheet(),
-                    icon: const Icon(Icons.add_rounded),
-                    label: Text(context.l10n.profileAddVehicleShort),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
                 ],
               ),
-              const SizedBox(height: 8),
-              ..._vehicles.asMap().entries.map((entry) {
-                final index = entry.key;
-                final vehicle = entry.value;
-
-                final model = _safeTrim(vehicle['model']);
-                final number = _safeTrim(vehicle['number']);
-                final color = _safeTrim(vehicle['color']);
-                final year = _safeTrim(vehicle['year']);
-                final manufacturer = _safeTrim(vehicle['manufacturer']);
-                final type = _safeTrim(vehicle['type']);
-
-                final vehicleTitle = model.isNotEmpty
-                    ? model
-                    : (manufacturer.isNotEmpty
-                        ? manufacturer
-                        : (number.isNotEmpty
-                            ? number
-                            : context.l10n.profileVehicleUntitled));
-
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFFE4E9F0)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              vehicleTitle,
-                              style: const TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: AppColors.primary,
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: _saving
-                                ? null
-                                : () => _openVehicleSheet(editIndex: index),
-                            icon: const Icon(
-                              Icons.edit_outlined,
-                              color: Color(0xFF8D96A5),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 2),
-                      _vehicleDetailItem(
-                        label: context.l10n.profileVehicleLabelModel,
-                        value: model,
-                      ),
-                      _vehicleDetailItem(
-                        label: context.l10n.profileVehicleLabelManufacturer,
-                        value: manufacturer,
-                      ),
-                      _vehicleDetailItem(
-                        label: context.l10n.profileVehicleLabelColor,
-                        value: color,
-                      ),
-                      _vehicleDetailItem(
-                        label: context.l10n.profileVehicleLabelNumber,
-                        value: number,
-                      ),
-                      _vehicleDetailItem(
-                        label: context.l10n.profileVehicleLabelType,
-                        value: type,
-                      ),
-                      _vehicleDetailItem(
-                        label: context.l10n.profileVehicleLabelYear,
-                        value: year,
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Container(
-                            width: 7,
-                            height: 7,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF7F6400),
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            context.l10n.profileVehicleInsured,
-                            style: const TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF7F6400),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              }),
-              if (_vehicles.isEmpty)
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: const Color(0xFFE4E9F0)),
-                  ),
-                  child: Text(
-                    context.l10n.profileNoVehicles,
-                    style: const TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF6A707B),
-                    ),
-                  ),
-                ),
-              if (hasUnsavedChanges) ...[
-                const SizedBox(height: 8),
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: ElevatedButton(
-                    onPressed: _saving ? null : _saveProfile,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    child: Text(
-                      _saving
-                          ? context.l10n.commonSaving
-                          : context.l10n.profileSaveButton,
-                      style: const TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ],
-          ),
+            ),
+            if (showLoader) const BlueLoaderOverlay(),
+          ],
         );
       },
     );
